@@ -1,0 +1,20 @@
+/* pages/sign/sign.wxss */
+.head {
+  padding-bottom: 20rpx;
+  text-align: center;
+}
+.head-logo {
+  width: 100%;
+}
+.head-info {
+  margin-top: 10rpx;
+  color: #888888;
+  font-size: 28rpx;
+}
+
+
+.list-button {
+  margin: 20rpx;
+  border-radius: 4rpx;
+  overflow: hidden;
+}

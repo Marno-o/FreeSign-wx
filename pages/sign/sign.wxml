@@ -1,0 +1,15 @@
+<!--pages/sign/sign.wxml-->
+<!-- 头部图片，刷新时展示动态图片 -->
+<view class="head">
+  <!--需要动态GIF -->
+  <image class="head-logo" src="src/bt.jpg" mode="widthFix"></image>
+  <view class="head-info">- 请选择当前蓝牙信标id并点击签到 -</view>
+</view>
+
+<scroll-view scroll-y="true" style="height:{{height}}rpx;position:absolute;bottom:10rpx;">
+  <block wx:for-items="{{blueToothList}}" wx:key="deviceId">
+    <button deviceId="{{item.deviceId}}" class="list-button" style="width:75%" bindtap="signThis" data-id="{{item.deviceId}}">
+      {{item.name}}
+    </button>
+  </block>
+</scroll-view>

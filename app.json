@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/menu/menu",
+    "pages/sign/sign",
+    "pages/logs/logs",
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#20b2aa",
+    "navigationBarTitleText": "来了？签个到！",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/menu/menu",
+        "text": "签到",
+        "iconPath": "src/icon/签到1.png",
+        "selectedIconPath": "src/icon/签到2.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "Me",
+        "iconPath": "src/icon/Me1.png",
+        "selectedIconPath": "src/icon/Me2.png"
+      }
+    ],
+    "selectedColor": "#20b2aa"
+  },
+  "debug": true,
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
