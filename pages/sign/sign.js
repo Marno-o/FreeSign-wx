@@ -167,6 +167,9 @@ closeBluetoothAdapter() {
 signThis: function(e) {
   console.log(e);
   console.log("点击签到，签到的信标是" + e.currentTarget.dataset.id);
+  wx.request({
+    url: '',
+  })
 }
 
 /**

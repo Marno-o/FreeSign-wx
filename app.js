@@ -15,35 +15,28 @@ App({
         console.log(" ====>  code:" + code);
         wx.getUserInfo({
           success: res => {
-            console.log(" ====>  获取用户信息成功");
+            console.log(" ====>  获取用户信息成功res.encryptedData用户敏感信息加密数据,res.iv加密算法的初始向量");
+            const host = 'http://192.168.1.6:80'
             wx.request({
-              // url: app.server.hostUrl + '/usersign',
+              url: host + '/usersign',
               method: 'post',
-              header: {},
+              header: {
+                'content-type': 'application/x-www-form-urlencoded'
+              },
               data: {
                 encryptedData: res.encryptedData,
                 iv: res.iv,
                 code: code
               },
               success: data => {
-                wx.getStorage({
-                  key: 'userInfo',
-                  data: data.data.userInfo,
-                })
-                if (data.data.code == 1) {
+                console.log(" ====>  获取服务器返回的结果");
+                if (data.data.status == 1) {
+                  wx.getStorage({
+                    key: 'userInfo',
+                    data: data.data.userInfo,
+                  })
                   var userInfo_ = data.data.userInfo;
-                  // app.globalData.userInfo = userInfo_
-                  that.setData({
-                    getUserInfoFail: false,
-                    userInfo: userInfo_,
-                    hasUserInfo: true
-                  })
-                  thist.setData({
-                    datas: userInfo_,
-                    index: 1
-                  })
                   console.log(userInfo_)
-                  that.onLoad();
                 } else {
                   console.log('解密失败')
                 }
