@@ -1,2 +1,61 @@
 <!--pages/organize/organize.wxml-->
-<text>pages/organize/organize.wxml</text>
+
+<view style="heigth:100%">
+  <view class="formHead">
+    <view class="fsttitle">新建场景</view>
+    <view class="secondtitle">组织者：{{}}</view>
+  </view>
+
+  <view class="formContent">
+    <form bindsubmit=" ">
+
+      <view class="itemStyle">
+        <view class="section__title">场景主题</view>
+        <input name="input" placeholder="例：XXX会议" />
+      </view>
+
+      <view class="itemStyle">
+        <view class="section__title">
+          定时任务
+          <switch name="switch" style="float:right;height:100%" checked="{{ifdelay}}" bindchange="ifdelay" />
+        </view>
+
+        <view wx:if="{{ifdelay}}" class="section">
+          <view class="section__title">时间选择器</view>
+          <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+            <view class="picker">
+              当前选择: {{time}}
+            </view>
+          </picker>
+
+          <view class="section__title">日期选择器</view>
+          <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+            <view class="picker">
+              当前选择: {{date}}
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="itemStyle">
+        <view class="section__title">预计时长:{{timelong}}分钟</view>
+        <slider name="slider" style="padding-left: 10rpx;padding-right:10rpx" bindchanging="settimelong" min="30" max="120" step="30" value="{{timelong}}"></slider>
+      </view>
+
+      <view class="itemStyle">
+        <view class="section__title">签到方式
+          <radio-group name="radio-group" style="padding-left: 10rpx;padding-right:10rpx;float:right;font-weight:normal;">
+            <label style="margin-right:15px">
+              <radio value="bybluetooth" checked="true"/>蓝牙信标</label>
+            <label>
+              <radio value="bynfc" />NFC</label>
+          </radio-group>
+        </view>
+      </view>
+
+      <view class="btn-area">
+        <button formType="submit" style="margin-top:200rpx">Submit</button>
+      </view>
+    </form>
+  </view>
+</view>

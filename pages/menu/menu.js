@@ -18,7 +18,7 @@ Page({
       },
       {
         name: "组织签到",
-        url:"src/2.jpg",
+        url:"organize",
         pic: "src/2.jpg"
       }
     ]

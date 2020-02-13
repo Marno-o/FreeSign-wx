@@ -1,1 +1,41 @@
 /* pages/organize/organize.wxss */
+page{
+  background-color: #58b8bd
+}
+
+.formHead{
+  margin-top: 100rpx;
+  margin-bottom: 60rpx;
+  margin-left:80rpx; 
+}
+.fsttitle{
+font-size: 45rpx;
+  font-weight: bold
+}
+.secondtitle{
+  font-size: 30rpx;
+}
+
+.formContent{
+  margin: 40rpx;
+}
+
+.itemStyle{
+  margin: 20rpx;
+  margin-bottom: 30rpx;
+  background-color:rgb(250, 250, 250);
+  border-radius: 30rpx;
+  padding-top:20rpx;
+  padding-bottom:20rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  box-shadow: 5rpx 5rpx 20rpx 0rpx rgba(0,64,128,.2);
+  transition: box-shadow .3s;
+}
+
+.section__title{
+  font-size: 35rpx;
+  font-weight: bold;
+  height: 38px;
+  line-height: 38px
+}

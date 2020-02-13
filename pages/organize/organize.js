@@ -5,7 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    ifdelay:false,
+    timelong:30
   },
 
   /**
@@ -62,5 +63,13 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  ifdelay(e){
+    this.setData({ ifdelay: e.detail.value })
+  },
+
+  settimelong(e){
+    this.setData({ timelong: e.detail.value })
   }
 })
