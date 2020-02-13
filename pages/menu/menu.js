@@ -84,7 +84,7 @@ Page({
    * 跳转链接
    */
   jumpToPage(e) {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/' + e.currentTarget.dataset.url + '/' + e.currentTarget.dataset.url,
     })
   }
