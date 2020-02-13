@@ -3,7 +3,8 @@
     "pages/menu/menu",
     "pages/sign/sign",
     "pages/logs/logs",
-    "pages/index/index"
+    "pages/index/index",
+    "pages/scene/scene"
   ],
   "window": {
     "backgroundTextStyle": "light",
