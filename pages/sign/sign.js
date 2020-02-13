@@ -22,7 +22,8 @@ Page({
   data: {
     blueToothList: [],
     height: 450,
-    motto: "请选择当前蓝牙信标id并点击签到"
+    motto: "请选择当前蓝牙信标id并点击签到",
+    scanning:false
   },
 
   /**
@@ -85,6 +86,9 @@ onShareAppMessage: function() {
  */
 openBluetoothAdapter() {
   console.log(' ====>  正在初始化小程序蓝牙模块...')
+  this.setData({
+    scanning:true
+  })
   var that = this
   wx.openBluetoothAdapter({
     success: (res) => {
@@ -155,12 +159,16 @@ onBluetoothDeviceFound() {
       this.closeBluetoothAdapter()
       console.log(' ====>  正在更新列表')
       this.setData({
-        motto: "请选择当前蓝牙信标id并点击签到"
+        motto: "请选择当前蓝牙信标id并点击签到",
+          scanning: false
       })
       this.setData(data)
     })
     fail: (res) => {
-      data[motto] = "未找到附近的蓝牙信标"
+      this.setData({
+        motto: "未找到附近的蓝牙信标",
+        scanning: false
+      })
     }
   })
 },

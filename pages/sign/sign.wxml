@@ -2,7 +2,8 @@
 <!-- 头部图片，刷新时展示动态图片 -->
 <view class="head">
   <!--需要动态GIF -->
-  <image class="head-logo" src="src/bt.jpg" mode="widthFix"></image>
+  <image wx:if="{{scanning}}" class="head-logo" src="src/bti.jpg" mode="widthFix"></image>
+  <image wx:else class="head-logo" src="src/bt.jpg" mode="widthFix"></image>
   <view class="head-info">- {{motto}} -</view>
 </view>
 
