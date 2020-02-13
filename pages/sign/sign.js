@@ -21,7 +21,8 @@ Page({
    */
   data: {
     blueToothList: [],
-    height: 450
+    height: 450,
+    motto: "请选择当前蓝牙信标id并点击签到"
   },
 
   /**
@@ -84,6 +85,7 @@ onShareAppMessage: function() {
  */
 openBluetoothAdapter() {
   console.log(' ====>  正在初始化小程序蓝牙模块...')
+  var that = this
   wx.openBluetoothAdapter({
     success: (res) => {
       console.log(' ====>  初始化小程序蓝牙模块成功', res)
@@ -91,21 +93,19 @@ openBluetoothAdapter() {
     },
     fail: function(res) {
       console.log(' ====>  初始化小程序蓝牙模块失败，可能是蓝牙开关未打开', res)
-      wx.showModal({
-        content: '请开启手机蓝牙后再试',
-        showCancel: false, //是否显示取消按钮
-        confirmText: "好", //默认是“确定”
-        success: function(res) {
-          if (res.confirm) {
-            wx.onBluetoothAdapterStateChange(function(res) {
-              console.log(' ====>  开始监听蓝牙适配器状态是否有变化', res)
-              if (res.available) {
-                console.log(' ====>  监听到蓝牙适配器状态变化：目前可用', res)
-                console.log(' ====>  开始搜寻附近的蓝牙外围设备...')
-                this.startBluetoothDevicesDiscovery() //怎么调用外层外层海曙
-              }
-            })
-          }
+      that.setData({
+        motto: "请开启手机蓝牙后再试"
+      })
+      var thatt = that
+      wx.onBluetoothAdapterStateChange(function (res) {
+        console.log(' ====>  开始监听蓝牙适配器状态是否有变化', res)
+        if (res.available) {
+          thatt.setData({
+            motto: "搜索中..."
+          })
+          console.log(' ====>  监听到蓝牙适配器状态变化：目前可用', res)
+          console.log(' ====>  开始搜寻附近的蓝牙外围设备...')
+          thatt.startBluetoothDevicesDiscovery()
         }
       })
     }
@@ -116,6 +116,9 @@ startBluetoothDevicesDiscovery() {
     console.log(" ====>  已经开始搜索附近的蓝牙设备")
     return
   }
+  this.setData({
+    motto: "搜索中..."
+  })
   console.log(" ====>  开始搜索附近的蓝牙设备...")
   this._discoveryStarted = true
   wx.startBluetoothDevicesDiscovery({
@@ -151,8 +154,14 @@ onBluetoothDeviceFound() {
       this.stopBluetoothDevicesDiscovery()
       this.closeBluetoothAdapter()
       console.log(' ====>  正在更新列表')
+      this.setData({
+        motto: "请选择当前蓝牙信标id并点击签到"
+      })
       this.setData(data)
     })
+    fail: (res) => {
+      data[motto] = "未找到附近的蓝牙信标"
+    }
   })
 },
 closeBluetoothAdapter() {
@@ -165,10 +174,38 @@ closeBluetoothAdapter() {
  * 点击签到，完成签到逻辑
  */
 signThis: function(e) {
-  console.log(e);
-  console.log("点击签到，签到的信标是" + e.currentTarget.dataset.id);
+  const userInfo111 = wx.getStorageSync('userInfo')
+  const memberID = userInfo111.openId
+  console.log("memberId:"+memberID)
+  const btid = e.currentTarget.dataset.id
+  const host = 'http://192.168.1.6:80'
   wx.request({
-    url: '',
+    url: host + '/btsign',
+    method: 'post',
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    data: {
+      btId: btid,
+      memberId: memberID
+    },
+    success: data => {
+      console.log(" ====>  获取服务器返回的结果");
+      if (data.data.status == 1){
+        wx.showModal({
+          title: data.data.msg,
+          showCancel:false,
+          confirmText:"Nice！"
+        })
+      }
+    },
+    fail: data => {
+      wx.showModal({
+        title: '签到失败',
+        showCancel: false,
+        confirmText: "Fxxx！"
+      })
+    }
   })
 }
 

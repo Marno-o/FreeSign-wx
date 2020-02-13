@@ -31,12 +31,17 @@ App({
               success: data => {
                 console.log(" ====>  获取服务器返回的结果");
                 if (data.data.status == 1) {
-                  wx.getStorage({
+                  wx.setStorage({
                     key: 'userInfo',
                     data: data.data.userInfo,
-                  })
-                  var userInfo_ = data.data.userInfo;
-                  console.log(userInfo_)
+                  }) 
+                  console.log("data:"+data)
+                  console.log("data.data:"+data.data)
+                  const userInfo111 = wx.getStorageSync('userInfo')
+                  console.log(userInfo111)
+                  getApp().globalData.userInfo = data.data.userInfo
+                  console.log(getApp().globalData.userInfo)
+                  console.log(data.data.userInfo)
                 } else {
                   console.log('解密失败')
                 }
