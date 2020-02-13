@@ -182,6 +182,9 @@ closeBluetoothAdapter() {
  * 点击签到，完成签到逻辑
  */
 signThis: function(e) {
+  wx.showLoading({
+    title: 'Waiting...',
+  })
   const userInfo111 = wx.getStorageSync('userInfo')
   const memberID = userInfo111.openId
   console.log("memberId:"+memberID)
@@ -198,16 +201,29 @@ signThis: function(e) {
       memberId: memberID
     },
     success: data => {
+      wx.hideLoading()
       console.log(" ====>  获取服务器返回的结果");
       if (data.data.status == 1){
         wx.showModal({
           title: data.data.msg,
           showCancel:false,
-          confirmText:"Nice！"
+          confirmText:"Nice！",
+          success: function (res) {
+            wx.redirectTo({
+              url: 'pages/scene/scene' + "?sceneId=" + sceneId+"&memberId="+memberId,
+            })
+          }
+        })
+      }else{
+        wx.showModal({
+          title: '签到失败，该信标未绑定事件',
+          showCancel: false,
+          confirmText: "重新找找",
         })
       }
     },
     fail: data => {
+      wx.hideLoading()
       wx.showModal({
         title: '签到失败',
         showCancel: false,
