@@ -4,12 +4,12 @@ page{
 }
 
 .formHead{
-  margin-top: 100rpx;
-  margin-bottom: 60rpx;
-  margin-left:80rpx; 
+  padding-top: 100rpx;
+  padding-bottom: 60rpx;
+  padding-left:80rpx; 
 }
 .fsttitle{
-font-size: 45rpx;
+  font-size: 45rpx;
   font-weight: bold
 }
 .secondtitle{
@@ -17,7 +17,8 @@ font-size: 45rpx;
 }
 
 .formContent{
-  margin: 40rpx;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
 }
 
 .itemStyle{
