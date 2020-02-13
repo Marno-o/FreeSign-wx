@@ -30,7 +30,7 @@ Page({
    * 生命周期函数--监听页面加载——获取设备信息；初始化蓝牙，搜索蓝牙信标
    */
   onLoad: function(options) {
-    let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的高度
+    let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的useable高度
     this.setData({
       height: windowHeight - 150
     });

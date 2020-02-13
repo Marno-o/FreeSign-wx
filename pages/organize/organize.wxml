@@ -52,11 +52,11 @@
           <!-- 签到方式 -->
           <view class="itemStyle">
             <view class="section__title">签到方式
-              <radio-group name="radio-group" style="padding-left: 10rpx;padding-right:10rpx;float:right;font-weight:normal;">
+              <radio-group name="radio-group" bindchange="modeChange" style="padding-left: 10rpx;padding-right:10rpx;float:right;font-weight:normal;">
                 <label style="margin-right:15px">
-                  <radio value="bybluetooth" checked="true" />蓝牙信标</label>
+                  <radio value="true" checked="true" />蓝牙信标</label>
                 <label>
-                  <radio value="bynfc" />NFC</label>
+                  <radio value="false" />NFC</label>
               </radio-group>
             </view>
           </view>
@@ -71,17 +71,24 @@
         <swiper-item class="secondpage" style="height:{{height}}px">
 
           <!-- 选择了蓝牙 -->
-          <view wx:if="{{bt}}" class="itemStyle">
-            <view class="section__title" style="text-align:center;">{{motto}}</view>
+          <view wx:if="{{bt}}" class="itemStyle" style="text-align:center;">
+            <view class="section__title">{{motto}}</view>
+            <view style="background: #58b8bd;width: 100%;height: 5rpx;"></view>
+            <scroll-view scroll-y="true" style="height:700rpx;margin-top:70rpx">
+              <radio class="radio" wx:for-items="{{blueToothList}}" wx:key="deviceId" value="{{item.deviceId}}">
+                  <text>{{item.name}}</text>
+                </radio>
+            </scroll-view>
           </view>
 
           <!-- 选择了nfc -->
-          <view wx:else  class="itemStyle">
+          <view wx:else class="itemStyle ">
+            <view class="section__title " style="text-align:center; ">NFC</view>
           </view>
 
           <!-- 提交 -->
-          <view class="btn-area">
-            <button formType="submit" style="position:fixed;bottom:80rpx;left:0;right:0">提交</button>
+          <view class="btn-area ">
+            <button formType="submit " style="position:fixed;bottom:80rpx;left:0;right:0 ">提交</button>
           </view>
         </swiper-item>
       </swiper>
