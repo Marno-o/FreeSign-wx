@@ -21,18 +21,23 @@ Page({
   data: {
     blueToothList: [],
     scanning: false,
-    ifdelay:false,
-    timelong:30,
+    startdate: "",
+    starttime: "",
+    date: "",
+    time: "",
+    ifdelay: false,
+    ifRegister: true,
+    timelong: 30,
     height: 1000,
-    currentTab:0,
-    bt:true,
-    motto:"正在搜索附近的蓝牙信标..."
+    currentTab: 0,
+    ifbt: true,
+    motto: "正在搜索附近的蓝牙信标..."
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的高度
     console.log(windowHeight)
     let query = wx.createSelectorQuery();
@@ -43,97 +48,151 @@ Page({
         height: contheight
       });
     }).exec();
-    
+    //获取当前时间
+    this.getNowFormatDate()
 
   },
+
+  getNowFormatDate: function() { //获取当前时间
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var strDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+    var currenttime = date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds();
+    this.setData({
+      starttime: currenttime,
+      startdate: currentdate
+    })
+  },
+
+
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     this.openBluetoothAdapter();
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
 
-// 是否采用定时任务
-  ifdelay(e){
-    this.setData({ ifdelay: e.detail.value })
+  //需要报名
+  ifRegister: function(e) {
+    this.setData({
+      ifRegister: e.detail.value
+    })
   },
 
-// 设置时长
-  settimelong(e){
-    this.setData({ timelong: e.detail.value })
+  // 是否采用定时任务
+  ifdelay(e) {
+    this.setData({
+      ifdelay: e.detail.value
+    })
   },
 
-// swiper跳转
-  nextstep(e){
+  /**
+   * 改变日期
+   */
+  DateChange: function(e) {
+    this.setData({
+      date: e.detail.value
+    })
+  },
+
+  /**
+   * 改变时间
+   */
+  TimeChange: function(e) {
+    this.setData({
+      time: e.detail.value
+    })
+  },
+
+  // 设置时长
+  settimelong(e) {
+    this.setData({
+      timelong: e.detail.value
+    })
+  },
+
+  // swiper跳转
+  nextstep(e) {
     this.setData({
       currentTab: e.target.dataset.current
     })
   },
 
   // 签到方式发生改变
-  modeChange: function (e) {
+  modeChange: function(e) {
     var that = this
-    if (e.detail.value){
+    if (e.detail.value) {
       that.setData({
-        bt: e.detail.value
+        ifbt: e.detail.value
       })
       that.openBluetoothAdapter();
-    }else{
+      console.log(that.data.ifbt)
+    } else {
       that.setData({
-        bt: e.detail.value
+        ifbt: e.detail.value
       })
-      that.closeBluetoothAdapter
+      that.closeBluetoothAdapter()
+      console.log(that.data.ifbt)
     }
     console.log('radio发生change事件，携带value值为：', e.detail.value)
   },
 
-/**
- * 蓝牙逻辑，搜索附近信标并显示在列表中
- */
-openBluetoothAdapter() {
+  /**判断信标是否可用 */
+  ifused: function(e) {
+    //                                                                                                             waiting 
+  },
+
+  /**
+   * 蓝牙逻辑，搜索附近信标并显示在列表中
+   */
+  openBluetoothAdapter() {
     console.log(' ====>  正在初始化小程序蓝牙模块...')
     this.setData({
       scanning: true
@@ -144,13 +203,13 @@ openBluetoothAdapter() {
         console.log(' ====>  初始化小程序蓝牙模块成功', res)
         this.startBluetoothDevicesDiscovery()
       },
-      fail: function (res) {
+      fail: function(res) {
         console.log(' ====>  初始化小程序蓝牙模块失败，可能是蓝牙开关未打开', res)
         that.setData({
           motto: "请打开蓝牙开关"
         })
         var thatt = that
-        wx.onBluetoothAdapterStateChange(function (res) {
+        wx.onBluetoothAdapterStateChange(function(res) {
           console.log(' ====>  开始监听蓝牙适配器状态是否有变化', res)
           if (res.available) {
             thatt.setData({
@@ -227,5 +286,62 @@ openBluetoothAdapter() {
     this._discoveryStarted = false
   },
 
-
+  /**
+   * submit
+   */
+  subform: function(e) {
+    var that = this
+    if (e.detail.value.theme == "") {
+      var thatt = that
+      wx.showModal({
+        title: '请输入场景主题！',
+        showCancel: false,
+        confirmText: "好",
+        success: function(res) {
+          thatt.setData({
+            currentTab: 0
+          })
+        }
+      })
+    } else if (e.detail.value.ifdelay) {
+      //检查是否输入时间
+      var thatt = that
+      if (e.detail.value.date == "" || e.detail.value.time == "") {
+        wx.showModal({
+          title: '请选择时间或取消定时任务',
+          showCancel: false,
+          confirmText: "好",
+          success: function(res) {
+            thatt.setData({
+              currentTab: 0
+            })
+          }
+        })
+      }
+    } else if (e.detail.value.mode == 1) {
+      if (e.detail.value.deviceId == "") {
+        var thatt = that
+        wx.showModal({
+          title: '请选择蓝牙信标',
+          showCancel: false,
+          confirmText: "好",
+        })
+      } else {
+        if (that.ifused()) {
+          wx.request({
+            url: '', //                                                                                                     waiting
+          })
+        } else {
+          var thatt = that
+          wx.showModal({
+            title: '这个蓝牙信标暂时不可用',
+            content: '请换一个蓝牙信标或者更换时间段',
+            showCancel: false,
+            confirmText: "好",
+          })
+        }
+      }
+    }
+    console.log('form发生了submit事件，携带数据为：', e.detail.value)
+  }
 })
