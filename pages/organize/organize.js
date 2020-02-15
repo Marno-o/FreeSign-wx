@@ -12,6 +12,7 @@ function inArray(arr, key, val) {
   return -1;
 }
 
+var app = getApp()
 
 Page({
 
@@ -19,6 +20,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    nickName: wx.getStorageSync('userInfo').nickName,
     blueToothList: [],
     scanning: false,
     startdate: "",
@@ -38,6 +40,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log(wx.getStorageSync('userInfo'))
     let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的高度
     console.log(windowHeight)
     let query = wx.createSelectorQuery();
@@ -63,7 +66,9 @@ Page({
     var currenttime = date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds();
     this.setData({
       starttime: currenttime,
-      startdate: currentdate
+      time: currenttime,
+      startdate: currentdate,
+      date: currentdate
     })
   },
 
@@ -185,8 +190,24 @@ Page({
   },
 
   /**判断信标是否可用 */
-  ifused: function(e) {
-    //                                                                                                             waiting 
+  ifused: function(deviceId, date, time, timelong) {
+    wx.request({
+      url: app.globalData.host + '/ifused',
+      method: 'post',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        deviceId: deviceId,
+        date: date,
+        time: time,
+        timelong: timelong
+      },
+      success: data => {
+        console.log("data.data" + data.data)
+        return data.data
+      }
+    })
   },
 
   /**
@@ -290,7 +311,9 @@ Page({
    * submit
    */
   subform: function(e) {
+    console.log('form发生了submit事件，携带数据为：', e.detail.value)
     var that = this
+    // 场景主题
     if (e.detail.value.theme == "") {
       var thatt = that
       wx.showModal({
@@ -303,12 +326,15 @@ Page({
           })
         }
       })
-    } else if (e.detail.value.ifdelay) {
-      //检查是否输入时间
+    } else {
+      console.log("场景主题:" + e.detail.value.theme)
+    }
+    // 请输入留言或取消报名
+    if (e.detail.value.ifRegister) {
       var thatt = that
-      if (e.detail.value.date == "" || e.detail.value.time == "") {
+      if (e.detail.value.mymessage == "") {
         wx.showModal({
-          title: '请选择时间或取消定时任务',
+          title: '请输入留言或取消报名',
           showCancel: false,
           confirmText: "好",
           success: function(res) {
@@ -317,31 +343,60 @@ Page({
             })
           }
         })
+      } else {
+        console.log("留言:" + e.detail.value.mymessage)
       }
-    } else if (e.detail.value.mode == 1) {
+    } else {
+      console.log("报名:" + e.detail.value.ifRegister)
+    }
+    // 签到方式
+    if (e.detail.value.mode == "1") {
+      var that = this
       if (e.detail.value.deviceId == "") {
         var thatt = that
         wx.showModal({
           title: '请选择蓝牙信标',
           showCancel: false,
-          confirmText: "好",
+          confirmText: "好"
         })
       } else {
-        if (that.ifused()) {
-          wx.request({
-            url: '', //                                                                                                     waiting
-          })
-        } else {
-          var thatt = that
-          wx.showModal({
-            title: '这个蓝牙信标暂时不可用',
-            content: '请换一个蓝牙信标或者更换时间段',
-            showCancel: false,
-            confirmText: "好",
-          })
-        }
+        wx.showLoading({
+          title: '请稍候...',
+        })
+        wx.request({
+          url: app.globalData.host + '/makescene',
+          method: 'post',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          data: {
+            originatorID: wx.getStorageSync("userInfo").openID,
+            theme: e.detail.value.theme,
+            mode: e.detail.value.mode,
+            deviceId: e.detail.value.deviceId,
+            mymessage: e.detail.value.mymessage,
+            sttime: e.detail.value.time,
+            stdate: e.detail.value.date,
+            timelong: e.detail.value.timelong
+          },
+          success: data => {
+            wx.hideLoading()
+            wx.reLaunch({
+              url: '../scene/scene',
+            })
+          },
+          fail: data => {
+            wx.hideLoading()
+            wx.showModal({
+              title: '网络连接出错，请重试',
+              showCancel: false,
+              confirmText: "好"
+            })
+          }
+        })
       }
+    } else {
+      console.log("签到方式:" + e.detail.value.mode)
     }
-    console.log('form发生了submit事件，携带数据为：', e.detail.value)
   }
 })

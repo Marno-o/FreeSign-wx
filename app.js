@@ -5,61 +5,7 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        var code = res.code;
-        console.log(" ====>  调用接口获取登录凭证（code）进而换取用户登录态信息，包括用户的唯一标识（openid）及本次登录的会话密钥（session_key）等。用户数据的加解密通讯需要依赖会话密钥完成。");
-        console.log(" ====>  code:" + code);
-        wx.getUserInfo({
-          success: res => {
-            console.log(" ====>  获取用户信息成功res.encryptedData用户敏感信息加密数据,res.iv加密算法的初始向量");
-            const host = 'http://192.168.1.6:80'
-            wx.request({
-              url: host + '/usersign',
-              method: 'post',
-              header: {
-                'content-type': 'application/x-www-form-urlencoded'
-              },
-              data: {
-                encryptedData: res.encryptedData,
-                iv: res.iv,
-                code: code
-              },
-              success: data => {
-                console.log(" ====>  获取服务器返回的结果");
-                if (data.data.status == 1) {
-                  wx.setStorage({
-                    key: 'userInfo',
-                    data: data.data.userInfo,
-                  }) 
-                  console.log("data:"+data)
-                  console.log("data.data:"+data.data)
-                  const userInfo111 = wx.getStorageSync('userInfo')
-                  console.log(userInfo111)
-                  getApp().globalData.userInfo = data.data.userInfo
-                  console.log(getApp().globalData.userInfo)
-                  console.log(data.data.userInfo)
-                } else {
-                  console.log('解密失败')
-                }
-              },
-              fail: data => {
-                console.log('系统错误')
-              }
-            })
-          },
-          fail: res => {
-            console.log(res);
-            that.setData({
-              getUserInfoFail: true
-            })
-          }
-        })
-      }
-    })
+    
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -82,6 +28,60 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    host: 'http://192.168.1.6:80'
+  },
+  userLogin:function(){
+    var that = this
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        var thatt = that
+        var code = res.code;
+        console.log(" ====>  调用接口获取登录凭证（code）进而换取用户登录态信息，包括用户的唯一标识（openid）及本次登录的会话密钥（session_key）等。用户数据的加解密通讯需要依赖会话密钥完成。");
+        console.log(" ====>  code:" + code);
+        wx.getUserInfo({
+          success: res => {
+            console.log(" ====>  获取用户信息成功res.encryptedData用户敏感信息加密数据,res.iv加密算法的初始向量");
+            const host = thatt.globalData.host
+            wx.request({
+              url: host + '/usersign',
+              method: 'post',
+              header: {
+                'content-type': 'application/x-www-form-urlencoded'
+              },
+              data: {
+                encryptedData: res.encryptedData,
+                iv: res.iv,
+                code: code
+              },
+              success: data => {
+                console.log(" ====>  获取服务器返回的结果");
+                if (data.data.status == 1) {
+                  wx.setStorageSync('userInfo', data.data.userInfo)
+                  console.log("data:" + data)
+                  console.log("data.data:" + data.data)
+                  const userInfo111 = wx.getStorageSync('userInfo')
+                  console.log(userInfo111)
+                  getApp().globalData.userInfo = data.data.userInfo
+                  console.log(getApp().globalData.userInfo)
+                  console.log(data.data.userInfo)
+                } else {
+                  console.log('解密失败')
+                }
+              },
+              fail: data => {
+                console.log('系统错误')
+              }
+            })
+          },
+          fail: res => {
+            console.log(res);
+            
+          }
+        })
+      }
+    })
   }
 })

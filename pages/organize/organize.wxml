@@ -4,7 +4,7 @@
   <!-- 标题 -->
   <view class="formHead">
     <view class="fsttitle">新建场景</view>
-    <view class="secondtitle">组织者：{{}}</view>
+    <view class="secondtitle">组织者：{{nickName}}</view>
   </view>
 
   <!-- 表格内容 -->
@@ -28,8 +28,8 @@
               </view>
 
               <view wx:if="{{ifRegister}}">
-                <view class="section__title">请输入地点</view>
-                <input name="address" placeholder="例：203会议室" focus="true" />
+                <view class="section__title">请输入留言，不超过20个字</view>
+                <input name="mymessage" placeholder="例：203会议室开会，迟到的明天别上班了" />
               </view>
 
               <view wx:else>
@@ -37,14 +37,13 @@
               </view>
             </view>
 
-
             <!-- 定时任务 -->
             <view class="itemStyle">
               <view class="section__title">定时任务
                 <switch name="ifdelay" style="float:right;height:100%" checked="{{ifdelay}}" bindchange="ifdelay" />
               </view>
 
-              <view wx:if="{{ifdelay}}">
+              <view hidden="{{!ifdelay}}">
                 <view>选择开始时间</view>
                 <picker name="date" mode="date" value="{{date}}" start="{{startdate}}" bindchange="DateChange">
                   <view class="picker"> 请选择日期: {{date}}</view>
@@ -54,7 +53,7 @@
                 </picker>
               </view>
 
-              <view wx:else>
+              <view hidden="{{ifdelay}}">
                 <view>未选择即默认为现在开始</view>
               </view>
             </view>
@@ -91,7 +90,7 @@
 
             <view class="itemStyle" style="text-align:center;margin-top:0">
               <block wx:if="{{ifbt == 1}}">
-                <radio-group name="devideId">
+                <radio-group name="deviceId">
                   <view class="section__title">{{motto}}</view>
                   <view style="background: #58b8bd;width: 100%;height: 5rpx;"></view>
                   <scroll-view scroll-y="true" style="height:700rpx;margin-top:70rpx">

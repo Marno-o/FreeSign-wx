@@ -1,7 +1,7 @@
 <!--pages/menu/menu.wxml-->
 <view >
 <view wx:for-items="{{menu}}" wx:key="deviceId" class="center">
-  <view  bindtap="jumpToPage" data-url="{{item.url}}">
+  <view open-type="getUserInfo" bindtap="jumpToPage" data-url="{{item.url}}">
     <image class="picButton" src="{{item.pic}}" mode="widthFix"></image>
     <view style="display:flex;justify-content:center;align-items:center">
       {{item.name}}  

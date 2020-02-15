@@ -1,6 +1,6 @@
 // pages/menu/menu.js
+var app = getApp()
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -84,8 +84,26 @@ Page({
    * 跳转链接
    */
   jumpToPage(e) {
-    wx.navigateTo({
-      url: '/pages/' + e.currentTarget.dataset.url + '/' + e.currentTarget.dataset.url,
-    })
+    var userinfo = wx.getStorageSync('userInfo')
+    console.log(userinfo)
+    console.log(wx.getStorageSync('userInfo'))
+    if (userinfo == undefined || userinfo == ""){
+      wx.showModal({
+        title: '请登录后再试',
+        showCancel: false,
+        confirmText: "好",
+        success: function (res) {
+          wx.switchTab({
+            url: '../index/index',
+          })
+        }
+      })
+    }else{
+      wx.navigateTo({
+        url: '/pages/' + e.currentTarget.dataset.url + '/' + e.currentTarget.dataset.url,
+      })
+    }
+    
+    
   }
 })
