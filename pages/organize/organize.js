@@ -350,27 +350,57 @@ Page({
           data: {
             originatorID: wx.getStorageSync("userInfo").openID,
             theme: e.detail.value.theme,
-            mode: e.detail.value.mode,
-            deviceId: e.detail.value.deviceId,
+            hoster: e.detail.value.hoster,
+            starttime: e.detail.value.starttime,
+            startdate: e.detail.value.startdate,
+            timelong: e.detail.value.timelong,
+            address: e.detail.value.address,
+            ifRegister: e.detail.value.ifRegister,
             mymessage: e.detail.value.mymessage,
-            sttime: e.detail.value.time,
-            stdate: e.detail.value.date,
-            timelong: e.detail.value.timelong
+            mode: e.detail.value.mode,
+            deviceId: e.detail.value.deviceId
           },
           success: data => {
             wx.hideLoading()
-            if(data.data.state == 2){//信标已被使用
-
-            } else {
-              wx.switchTab({
-                url: '../index/index',
+            if(data.data == 1){
+              wx.showModal({
+                title: '新建成功，即将跳转个人页面',
+                showCancel: false,
+                confirmText: "好",
+                success: function (res) {
+                  wx.switchTab({
+                    url: '../index/index',
+                  })
+                }
+              })
+            } else if (data.data == 2) {
+              wx.showModal({
+                title: '新建任务失败',
+                content: '这个信标已经被你用过啦，先停止它的任务吧！',
+                showCancel: false,
+                confirmText: "好"
+              })
+            } else if (data.data == 3){
+              wx.showModal({
+                title: '新建任务失败',
+                content: '这个信标已经被别人用啦，换个信标试试吧！',
+                showCancel: false,
+                confirmText: "好"
+              })
+            }else{
+              wx.showModal({
+                title: '新建任务失败',
+                content: '未知错误，请重试',
+                showCancel: false,
+                confirmText: "好"
               })
             }
           },
           fail: data => {
             wx.hideLoading()
             wx.showModal({
-              title: '网络连接出错，请重试',
+              title: '新建任务失败',
+              content:'可能是网络连接出错，请重试',
               showCancel: false,
               confirmText: "好"
             })

@@ -32,7 +32,7 @@
                   <input name="theme" placeholder="例：XXX会议" focus="true" />
                 </view>
                 <view>
-                  <view class="title">主 持：</view>
+                  <view class="title">主 持 人：</view>
                   <input name="hoster" placeholder="请输入 主持人姓名 或 主持单位" />
                 </view>
               </view>
@@ -44,7 +44,7 @@
               <view class="hr"></view>
               <view class="cont">
                 <view style="margin-bottom:10rpx">
-                  <view class="title">开始时间</view>
+                  <view class="title">开 始 时 间：</view>
                   <picker name="startdate" mode="date" value="{{date}}" start="{{startdate}}" bindchange="DateChange">
                     <view class="picker">{{date}}</view>
                   </picker>
@@ -53,7 +53,7 @@
                   </picker>
                 </view>
                 <view style="margin-bottom:10rpx">
-                  <view class="title">预计时长： {{timelong}}分钟</view>
+                  <view class="title">预 计 时 长： {{timelong}}分钟</view>
                   <slider name="timelong" bindchange="settimelong" min="30" max="120" step="30" value="{{timelong}}"></slider>
                 </view>
                 <view>
@@ -71,7 +71,7 @@
               <view class="hr"></view>
               <view wx:if="{{ifRegister}}">
                 <view>完成后转发可见此留言</view>
-                <view  class="title">请输入留言</view>
+                <view  class="title">请 输 入 留 言：</view>
                 <input name="mymessage" placeholder="例：请各部门派三人参加" />
               </view>
 
