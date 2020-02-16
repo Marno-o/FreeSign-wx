@@ -1,2 +1,89 @@
 <!--pages/scene/scene.wxml-->
-<text>pages/scene/scene.wxml</text>
+<view>
+  <!-- 标题 -->
+  <view class="formHead">
+    <view style="float:left">
+      <image style="width: 100rpx;height: 100rpx;border-radius: 50%; margin-rignt:20rpx" src="{{avatarUrl}}" mode="cover"></image>
+    </view>
+    <view style="padding-left: 110rpx;">
+      <view class="fsttitle">hhh{{Theme}}</view>
+      <view class="secondtitle">组织者：{{nickName}}</view>
+    </view>
+
+
+  </view>
+
+  <!-- 表格内容 -->
+  <view class="formContent">
+      <!-- swiper组件 -->
+      <swiper current="{{currentTab}}" vertical="true" style="height:{{height}}px" duration="350" easing-function="linear">
+        <!-- 第一页 -->
+        <swiper-item class="fstpage" style="height:{{height}}px">
+          <scroll-view scroll-y="true" style="height:80%">
+
+            <!-- 需要报名 -->
+            <view class="itemStyle"  style="margin-top:0">
+              <view class="section__title">需要报名
+                <switch name="ifRegister" style="float:right;height:100%" checked="{{ifRegister}}" bindchange="ifRegister" disabled="true"/>
+              </view>
+
+              <view wx:if="{{ifRegister}}">
+                <view class="section__title">点击右上角转发到群里，让小伙伴来报名吧</view>
+              </view>
+
+            </view>
+
+            <!-- 定时任务 -->
+            <view class="itemStyle">
+              <view class="section__title">时长
+              </view>
+              <view>开始时间{{starttime}}</view>
+              <view>结束时间{{endtime}}</view>
+
+            </view>
+
+            <!-- 签到方式 -->
+            <view class="itemStyle">
+              <view class="section__title">签到方式
+                <radio-group name="mode" bindchange="modeChange" style="padding-left: 10rpx;padding-right:10rpx;float:right;font-weight:normal;">
+                  <label style="margin-right:15px">
+                    <radio value="1" checked="true" />蓝牙信标</label>
+                  <label>
+                    <radio value="2" />其他</label>
+                </radio-group>
+              </view>
+            </view>
+
+            <!-- 切换swiper按钮 -->
+            <!-- <view hidden="{{!ifRegister}}" style="position:fixed;bottom:80rpx;left:0;right:0"> -->
+            <view style="position:fixed;bottom:80rpx;left:0;right:0">
+              <button data-current="1">查看报名详情</button>
+              <!-- <button wx:if="{{orignizatorID}}=={{openID}}" data-current="1">查看报名详情</button> -->
+              <!-- <button wx:else bindtap="register" data-current="1">报名参加</button> -->
+            </view>
+
+          </scroll-view>
+        </swiper-item>
+
+        <!-- 第二页 -->
+        <!-- <swiper-item  wx:if="{{ifRegister}}" class="secondpage" style="height:{{height}}px"> -->
+        <swiper-item class="secondpage" style="height:{{height}}px">
+          <scroll-view scroll-y="true" style="height:100%">
+
+            <view class="itemStyle" style="text-align:center;margin-top:0">
+              <block>
+                  <view class="section__title">报名详情</view>
+                  <view style="background: #58b8bd;width: 100%;height: 5rpx;"></view>
+                  <scroll-view scroll-y="true" style="height:900rpx;margin-top:70rpx">
+                    
+                    
+                  </scroll-view>
+              </block>
+            </view>
+
+            
+          </scroll-view>
+        </swiper-item>
+      </swiper>
+  </view>
+</view>

@@ -56,5 +56,10 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  scene:function(){
+    wx.navigateTo({
+      url: '../scene/scene',
+    })
   }
 })
