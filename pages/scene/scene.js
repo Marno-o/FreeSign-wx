@@ -10,7 +10,10 @@ Page({
     starttime: "2009/1/1 11:11:21",
     endtime: "2009/1/1 11:11:21",
     height: 1000,
-    currentTab:0
+    currentTab:0,
+    ifRegister: true,
+    ifbt: true,
+    motto: "正在搜索附近的蓝牙信标..."
   },
 
   /**
@@ -77,5 +80,18 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
+nextstep(e) {
+    this.setData({
+      currentTab: e.target.dataset.current
+    })
+  },
+
+  register(e) {
+    this.setData({
+      currentTab: e.target.dataset.current
+    })
+  },
+
 })
