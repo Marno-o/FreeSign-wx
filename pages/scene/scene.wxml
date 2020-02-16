@@ -8,7 +8,7 @@
       <image style="width: 100rpx;height: 100rpx;border-radius: 50%; margin-rignt:20rpx" src="{{avatarUrl}}" mode="cover"></image>
     </view>
     <view style="padding-left: 110rpx;">
-      <view class="fsttitle">场景名称{{theme}}</view>
+      <view class="fsttitle">{{theme}}</view>
       <view class="secondtitle">发起人：{{nickName}}</view>
     </view>
 
@@ -59,17 +59,17 @@
             <!-- 需要报名 -->
             <view class="itemStyle">
               <view class="section__title">需要报名
-                <switch name="ifRegister" style="float:right;height:100%" checked="{{ifRegister}}" bindchange="ifRegister" />
+                <switch style="float:right;height:100%" checked="{{ifRegister == 1}}" disabled="true" />
               </view>
               <view class="hr"></view>
-              <view wx:if="{{ifRegister}}">
+              <view wx:if="{{ifRegister == 1}}">
                 <view>点击右上角转发到群里邀请报名</view>
                 <view wx:if="{{mymessage == ''}}">
-                  <view class="title">留 言:</view>
-                  <view>{{mymessage}}</view>
+                  <view>没有留言</view>
                 </view>
                 <view wx:else>
-                  <view>没有留言</view>
+                  <view class="title">留 言:</view>
+                  <view>{{mymessage}}</view>
                 </view>
               </view>
 
@@ -82,14 +82,14 @@
             <view class="itemStyle">
               <view class="section__title">签到方式
                 <view style="padding-left: 10rpx;padding-right:10rpx;float:right;font-weight:normal;">
-                  <label wx:if="{{ifbt == 1}}" style="margin-right:15px">蓝牙信标</label>
+                  <label wx:if="{{mode == 1}}" style="margin-right:15px">蓝牙信标</label>
                   <label wx:else>其他</label>
                 </view>
               </view>
             </view>
 
             <!-- 切换swiper按钮 -->
-            <view wx:if="{{ifRegister}}" style="position:fixed;bottom:80rpx;left:0;right:0">
+            <view wx:if="{{ifRegister == 1}}" style="position:fixed;bottom:80rpx;left:0;right:0">
               <button wx:if="{{organizerID}} == {{openID}}" bindtap="nextstep" data-current="1">查看报名详情</button>
               <button wx:else bindtap="register" data-current="1">报名参加</button>
             </view>
@@ -98,7 +98,7 @@
         </swiper-item>
 
         <!-- 第二页 -->
-        <swiper-item wx:if="{{ifRegister}}" class="secondpage" style="height:{{height}}px">
+        <swiper-item wx:if="{{ifRegister == 1}}" class="secondpage" style="height:{{height}}px">
           <scroll-view scroll-y="true" style="height:100%">
 
             <view class="itemStyle" style="text-align:center;margin-top:0">

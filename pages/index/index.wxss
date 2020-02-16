@@ -1,4 +1,5 @@
 /**index.wxss**/
+
 .userinfo {
   display: flex;
   flex-direction: column;
@@ -6,8 +7,8 @@
 }
 
 .userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
+  width: 200rpx;
+  height: 200rpx;
   margin: 20rpx;
   border-radius: 50%;
 }
@@ -17,5 +18,39 @@
 }
 
 .usermotto {
-  margin-top: 200px;
+  margin-top: 20px;
+}
+
+.itemStyle{
+  margin: 20rpx;
+  margin-bottom: 30rpx;
+  background-color:rgb(250, 250, 250);
+  border-radius: 30rpx;
+  padding-top:20rpx;
+  padding-bottom:20rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  box-shadow: 5rpx 5rpx 20rpx 0rpx rgba(0,64,128,.2);
+  transition: box-shadow .3s;
+}
+
+.section__title{
+  font-size: 35rpx;
+  font-weight: bold;
+  height: 38px;
+  line-height: 38px
+}
+
+.hr{
+  background:#58b8bd;
+  width: 100%;
+  height: 5rpx;
+  margin-top:10rpx;
+  margin-bottom:10rpx;
+}
+
+.list-button {
+  margin: 10rpx;
+  border-radius: 4rpx;
+  overflow: hidden;
 }
