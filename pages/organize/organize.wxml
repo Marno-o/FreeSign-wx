@@ -3,8 +3,15 @@
 <view>
   <!-- 标题 -->
   <view class="formHead">
-    <view class="fsttitle">新建场景</view>
-    <view class="secondtitle">组织者：{{nickName}}</view>
+    <view style="float:left">
+      <image style="width: 100rpx;height: 100rpx;border-radius: 50%; margin-rignt:20rpx" src="{{avatarUrl}}" mode="cover"></image>
+    </view>
+    <view style="padding-left: 110rpx;">
+      <view class="fsttitle">发起新场景</view>
+      <view class="secondtitle">发起人：{{nickName}}</view>
+    </view>
+
+
   </view>
 
   <!-- 表格内容 -->
@@ -18,7 +25,42 @@
             <!-- 场景主题 -->
             <view class="itemStyle" style="margin-top:0">
               <view class="section__title">场景主题</view>
-              <input name="theme" placeholder="例：XXX会议" focus="true" />
+              <view class="hr"></view>
+              <view class="cont">
+                <view style="margin-bottom:10rpx">
+                  <view class="title">名 称：</view>
+                  <input name="theme" placeholder="例：XXX会议" focus="true" />
+                </view>
+                <view>
+                  <view class="title">主 持：</view>
+                  <input name="hoster" placeholder="请输入 主持人姓名 或 主持单位" />
+                </view>
+              </view>
+            </view>
+
+            <!-- 时间地点 -->
+            <view class="itemStyle">
+              <view class="section__title">时间地点</view>
+              <view class="hr"></view>
+              <view class="cont">
+                <view style="margin-bottom:10rpx">
+                  <view class="title">开始时间</view>
+                  <picker name="startdate" mode="date" value="{{date}}" start="{{startdate}}" bindchange="DateChange">
+                    <view class="picker">{{date}}</view>
+                  </picker>
+                  <picker name="starttime" mode="time" value="{{time}}" start="{{starttime}}" bindchange="TimeChange">
+                    <view class="picker">{{time}}</view>
+                  </picker>
+                </view>
+                <view style="margin-bottom:10rpx">
+                  <view class="title">预计时长： {{timelong}}分钟</view>
+                  <slider name="timelong" bindchange="settimelong" min="30" max="120" step="30" value="{{timelong}}"></slider>
+                </view>
+                <view>
+                  <view class="title">地 点：</view>
+                  <input name="address" placeholder="例：302会议室" />
+                </view>
+              </view>
             </view>
 
             <!-- 需要报名 -->
@@ -26,42 +68,16 @@
               <view class="section__title">需要报名
                 <switch name="ifRegister" style="float:right;height:100%" checked="{{ifRegister}}" bindchange="ifRegister" />
               </view>
-
+              <view class="hr"></view>
               <view wx:if="{{ifRegister}}">
-                <view class="section__title">请输入留言，不超过20个字</view>
-                <input name="mymessage" placeholder="例：203会议室开会，迟到的明天别上班了" />
+                <view>完成后转发可见此留言</view>
+                <view class="section__title">请输入留言</view>
+                <input name="mymessage" placeholder="例：请各部门派三人参加" />
               </view>
 
               <view wx:else>
-                <view>未选择即默认无需报名</view>
+                <view>无需报名</view>
               </view>
-            </view>
-
-            <!-- 定时任务 -->
-            <view class="itemStyle">
-              <view class="section__title">定时任务
-                <switch name="ifdelay" style="float:right;height:100%" checked="{{ifdelay}}" bindchange="ifdelay" />
-              </view>
-
-              <view hidden="{{!ifdelay}}">
-                <view>选择开始时间</view>
-                <picker name="date" mode="date" value="{{date}}" start="{{startdate}}" bindchange="DateChange">
-                  <view class="picker"> 请选择日期: {{date}}</view>
-                </picker>
-                <picker name="time" mode="time" value="{{time}}" start="{{starttime}}" bindchange="TimeChange">
-                  <view class="picker">请选择时间: {{time}}</view>
-                </picker>
-              </view>
-
-              <view hidden="{{ifdelay}}">
-                <view>未选择即默认为现在开始</view>
-              </view>
-            </view>
-
-            <!-- 预计时长 -->
-            <view class="itemStyle">
-              <view class="section__title">预计时长： {{timelong}}分钟</view>
-              <slider name="timelong" bindchange="settimelong" min="30" max="120" step="30" value="{{timelong}}"></slider>
             </view>
 
             <!-- 签到方式 -->
@@ -92,7 +108,7 @@
               <block wx:if="{{ifbt == 1}}">
                 <radio-group name="deviceId">
                   <view class="section__title">{{motto}}</view>
-                  <view style="background: #58b8bd;width: 100%;height: 5rpx;"></view>
+                  <view class="hr"></view>
                   <scroll-view scroll-y="true" style="height:700rpx;margin-top:70rpx">
                     <radio class="radio" wx:for-items="{{blueToothList}}" wx:key="deviceId" value="{{item.deviceId}}">
                       <text>{{item.name}}</text>

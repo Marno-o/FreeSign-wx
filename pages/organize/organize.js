@@ -21,6 +21,7 @@ Page({
    */
   data: {
     nickName: wx.getStorageSync('userInfo').nickName,
+    avatarUrl: wx.getStorageSync("userInfo").avatarUrl,
     blueToothList: [],
     scanning: false,
     startdate: "",
@@ -62,8 +63,10 @@ Page({
     var seperator2 = ":";
     var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var strDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+    var minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
     var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-    var currenttime = date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds();
+    var currenttime = hour + seperator2 + minute;
     this.setData({
       starttime: currenttime,
       time: currenttime,
@@ -317,7 +320,7 @@ Page({
     if (e.detail.value.theme == "") {
       var thatt = that
       wx.showModal({
-        title: '请输入场景主题！',
+        title: '请输入主题名称！',
         showCancel: false,
         confirmText: "好",
         success: function(res) {
@@ -326,31 +329,31 @@ Page({
           })
         }
       })
-    } else {
-      console.log("场景主题:" + e.detail.value.theme)
-    }
-    // 请输入留言或取消报名
-    if (e.detail.value.ifRegister) {
+    } else if (e.detail.value.hoster == "") {
       var thatt = that
-      if (e.detail.value.mymessage == "") {
-        wx.showModal({
-          title: '请输入留言或取消报名',
-          showCancel: false,
-          confirmText: "好",
-          success: function(res) {
-            thatt.setData({
-              currentTab: 0
-            })
-          }
-        })
-      } else {
-        console.log("留言:" + e.detail.value.mymessage)
-      }
-    } else {
-      console.log("报名:" + e.detail.value.ifRegister)
-    }
-    // 签到方式
-    if (e.detail.value.mode == "1") {
+      wx.showModal({
+        title: '请输入主持人！！',
+        showCancel: false,
+        confirmText: "好",
+        success: function (res) {
+          thatt.setData({
+            currentTab: 0
+          })
+        }
+      })
+    } else if (e.detail.value.address == "") {
+      var thatt = that
+      wx.showModal({
+        title: '请输入地点！！',
+        showCancel: false,
+        confirmText: "好",
+        success: function (res) {
+          thatt.setData({
+            currentTab: 0
+          })
+        }
+      })
+    } else if (e.detail.value.mode == "1") {
       var that = this
       if (e.detail.value.deviceId == "") {
         var thatt = that
@@ -382,7 +385,7 @@ Page({
           success: data => {
             wx.hideLoading()
             wx.reLaunch({
-              url: '../scene/scene',
+              url: '../index/index',
             })
           },
           fail: data => {
