@@ -54,7 +54,6 @@ Page({
     }).exec();
     //获取当前时间
     this.getNowFormatDate()
-
   },
 
   getNowFormatDate: function() { //获取当前时间
@@ -74,9 +73,6 @@ Page({
       date: currentdate
     })
   },
-
-
-
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -190,27 +186,6 @@ Page({
       console.log(that.data.ifbt)
     }
     console.log('radio发生change事件，携带value值为：', e.detail.value)
-  },
-
-  /**判断信标是否可用 */
-  ifused: function(deviceId, date, time, timelong) {
-    wx.request({
-      url: app.globalData.host + '/ifused',
-      method: 'post',
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
-      data: {
-        deviceId: deviceId,
-        date: date,
-        time: time,
-        timelong: timelong
-      },
-      success: data => {
-        console.log("data.data" + data.data)
-        return data.data
-      }
-    })
   },
 
   /**
@@ -384,9 +359,13 @@ Page({
           },
           success: data => {
             wx.hideLoading()
-            wx.reLaunch({
-              url: '../index/index',
-            })
+            if(data.data.state == 2){//信标已被使用
+
+            } else {
+              wx.switchTab({
+                url: '../index/index',
+              })
+            }
           },
           fail: data => {
             wx.hideLoading()

@@ -71,7 +71,7 @@
               <view class="hr"></view>
               <view wx:if="{{ifRegister}}">
                 <view>完成后转发可见此留言</view>
-                <view class="section__title">请输入留言</view>
+                <view  class="title">请输入留言</view>
                 <input name="mymessage" placeholder="例：请各部门派三人参加" />
               </view>
 
