@@ -20,8 +20,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    nickName: wx.getStorageSync('userInfo').nickName,
-    avatarUrl: wx.getStorageSync("userInfo").avatarUrl,
+    userInfo:{},
     blueToothList: [],
     scanning: false,
     startdate: "",
@@ -41,7 +40,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(wx.getStorageSync('userInfo'))
+    this.setData({
+      userInfo: app.globalData.userInfo,
+    })
+    console.log(this.data.userInfo)
     let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的高度
     console.log(windowHeight)
     let query = wx.createSelectorQuery();
@@ -331,13 +333,13 @@ Page({
     } else if (e.detail.value.mode == "1") {
       var that = this
       if (e.detail.value.deviceId == "") {
-        var thatt = that
         wx.showModal({
           title: '请选择蓝牙信标',
           showCancel: false,
           confirmText: "好"
         })
       } else {
+        var thatt = that
         wx.showLoading({
           title: '请稍候...',
         })
@@ -348,7 +350,7 @@ Page({
             'content-type': 'application/x-www-form-urlencoded'
           },
           data: {
-            originatorID: wx.getStorageSync("userInfo").openID,
+            originatorID: thatt.data.userInfo.openId,
             theme: e.detail.value.theme,
             hoster: e.detail.value.hoster,
             starttime: e.detail.value.starttime,

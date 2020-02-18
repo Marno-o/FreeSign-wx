@@ -13,7 +13,7 @@ Page({
       },
       {
         name: "NFC签到",
-        url:"src/2.jpg",
+        url:"sbn",
         pic: "src/2.jpg"
       },
       {
@@ -84,26 +84,22 @@ Page({
    * 跳转链接
    */
   jumpToPage(e) {
-    var userinfo = wx.getStorageSync('userInfo')
-    console.log(userinfo)
-    console.log(wx.getStorageSync('userInfo'))
-    if (userinfo == undefined || userinfo == ""){
-      wx.showModal({
-        title: '请登录后再试',
-        showCancel: false,
-        confirmText: "好",
-        success: function (res) {
-          wx.switchTab({
-            url: '../index/index',
-          })
-        }
-      })
-    }else{
+    console.log(app.globalData.ifUserSign)
+    if (app.globalData.ifUserSign){
       wx.navigateTo({
         url: '/pages/' + e.currentTarget.dataset.url + '/' + e.currentTarget.dataset.url,
       })
+    }else{
+      wx.showModal({
+        title: '请先登录',
+        showCancel: false,
+        confirmText: "好",
+        success: function (res) {
+          wx.redirectTo({
+            url: '../userLogin/login?targrtIs=' + e.currentTarget.dataset.url,
+          })
+        }
+      })
     }
-    
-    
   }
 })

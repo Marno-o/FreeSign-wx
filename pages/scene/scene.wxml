@@ -5,7 +5,7 @@
   <!-- 标题 -->
   <view class="formHead">
     <view style="float:left">
-      <image style="width: 100rpx;height: 100rpx;border-radius: 50%; margin-rignt:20rpx" src="{{avatarUrl}}" mode="cover"></image>
+      <image style="width: 100rpx;height: 100rpx;border-radius: 50%; margin-rignt:20rpx" src="{{userInfo.avatarUrl}}" mode="cover"></image>
     </view>
     <view style="padding-left: 110rpx;">
       <view class="fsttitle">{{theme}}</view>

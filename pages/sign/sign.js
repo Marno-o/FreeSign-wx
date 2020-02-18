@@ -15,6 +15,8 @@ function inArray(arr, key, val) {
   return -1;
 }
 
+var app = getApp()
+
 Page({
   /**
    * 页面的初始数据
@@ -185,20 +187,15 @@ signThis: function(e) {
   wx.showLoading({
     title: 'Waiting...',
   })
-  const userInfo111 = wx.getStorageSync('userInfo')
-  const memberID = userInfo111.openId
-  console.log("memberId:"+memberID)
-  const btid = e.currentTarget.dataset.id
-  const host = 'http://192.168.1.6:80'
   wx.request({
-    url: host + '/btsign',
+    url: app.globalData.host + '/btsign',
     method: 'post',
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
     data: {
-      btId: btid,
-      memberId: memberID
+      btId: e.currentTarget.dataset.id,
+      memberId: app.globalData.userInfo.openId
     },
     success: data => {
       wx.hideLoading()
@@ -210,7 +207,7 @@ signThis: function(e) {
           confirmText:"Nice！",
           success: function (res) {
             wx.redirectTo({
-              url: 'pages/scene/scene' + "?sceneId=" + sceneId+"&memberId="+memberId,
+              url: 'pages/scene/scene' + "?sceneId=" + sceneId,
             })
           }
         })

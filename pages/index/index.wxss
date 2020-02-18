@@ -21,6 +21,23 @@
   margin-top: 20px;
 }
 
+.formHead{
+  padding-top: 100rpx;
+  padding-bottom: 60rpx;
+  padding-left:80rpx; 
+}
+.fsttitle{
+  font-size: 45rpx;
+  font-weight: bold
+}
+.secondtitle{
+  font-size: 30rpx;
+}
+
+.formContent{
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+}
 .itemStyle{
   margin: 20rpx;
   margin-bottom: 30rpx;

@@ -1,24 +1,58 @@
 <!-- index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+<view >
+  <!-- 标题 -->
+  <view class="formHead" style="padding-left:0">
+    <view class="container">
+      <view class="userinfo">
+        <block>
+          <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+          <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </block>
+      </view>
+      <view class="usermotto">
+        <text class="user-motto">{{motto}}</text>
+      </view>
+    </view>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+
+  <!-- 表格内容 -->
+  <view class="formContent">
+    <!-- swiper组件 -->
+    <swiper current="{{currentTab}}" vertical="true" style="height:{{height}}px" duration="350" easing-function="linear">
+      <!-- 第一页 -->
+      <swiper-item class="fstpage" style="height:{{height}}px">
+        <scroll-view scroll-y="true" style="height:80%">
+
+          <view class="itemStyle" bindtap="myInfo">
+            <view class="section__title userinfo">我的资料</view>
+          </view>
+
+          <view class="itemStyle" style="height:{{height}}rpx;padding-left: 40rpx;padding-right: 40rpx;">
+            <view class="section__title userinfo">我组织的会议</view>
+            <view class="hr"></view>
+            <scroll-view scroll-y="true" style="height:80%;">
+              <block wx:for-items="{{sceneList}}" wx:key="sceneID">
+                <button class="list-button" style="width:75%;background-color:red" bindtap="scene" data-id="{{item.sceneID}}">
+                  {{item.theme}}
+                </button>
+              </block>
+            </scroll-view>
+          </view>
+
+          <!-- 切换swiper按钮 -->
+          <view style="position:fixed;bottom:80rpx;left:0;right:0">
+            <button bindtap="nextstep" data-current="1">下一步：选择信标</button>
+          </view>
+
+        </scroll-view>
+      </swiper-item>
+
+      <!-- 第二页 -->
+      <swiper-item class="secondpage" style="height:{{height}}px">
+        <scroll-view scroll-y="true" style="height:80%">
+
+        </scroll-view>
+      </swiper-item>
+    </swiper>
   </view>
-</view>
-<view class="itemStyle" style="height:{{height}}rpx;padding-left: 40rpx;padding-right: 40rpx;">
-  <view class="section__title userinfo">我组织的会议</view>
-  <view class="hr"></view>
-  <scroll-view scroll-y="true" style="height:80%;">
-    <block wx:for-items="{{sceneList}}" wx:key="sceneID">
-      <button class="list-button" style="width:75%;background-color:red" bindtap="scene" data-id="{{item.sceneID}}">
-        {{item.theme}}
-      </button>
-    </block>
-  </scroll-view>
 </view>

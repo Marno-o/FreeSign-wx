@@ -2,10 +2,10 @@
   "pages": [
     "pages/menu/menu",
     "pages/sign/sign",
-    "pages/logs/logs",
     "pages/index/index",
     "pages/scene/scene",
-    "pages/organize/organize"
+    "pages/organize/organize",
+    "pages/userLogin/login"
   ],
   "window": {
     "backgroundTextStyle": "light",

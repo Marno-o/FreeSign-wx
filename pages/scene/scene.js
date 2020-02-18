@@ -6,8 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    nickName: wx.getStorageSync('userInfo').nickName,
-    avatarUrl: wx.getStorageSync("userInfo").avatarUrl,
+    userInfo:{},
     theme: "",
     hoster: "",
     starttime: "2009/1/1 11:11:21",
@@ -28,6 +27,9 @@ Page({
    */
   onLoad: function(options) {
     var sceneID = options.sceneID
+    this.setData({
+      userInfo: app.globalData.userInfo
+    })
     wx.request({
       url: app.globalData.host + '/getscenebysid',
       method: 'post',
