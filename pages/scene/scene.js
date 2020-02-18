@@ -7,18 +7,8 @@ Page({
    */
   data: {
     userInfo:{},
-    theme: "",
-    hoster: "",
-    starttime: "2009/1/1 11:11:21",
-    endtime: "2009/1/1 11:11:21",
-    address: "",
-    ifRegister: 2,
-    mymessage: "",
-    mode: 1,
+    scene:{},
     height: 1000,
-    currentTab: 0,
-    ifRegister: true,
-    ifbt: true,
     motto: "..."
   },
 
@@ -40,20 +30,14 @@ Page({
         sceneID: options.sceneID
       },
       success: data => {
+        var sceneInfo = data.data
         console.log(data.data)
         var d1 = new Date(data.data.startTime)
-        var startTime = d1.getFullYear() + '-' + (d1.getMonth() + 1 < 10 ? "0" + (d1.getMonth() + 1) : d1.getMonth() + 1) + '-' + (d1.getDate() < 10 ? "0" + d1.getDate() : d1.getDate()) + ' ' + (d1.getHours() < 10 ? "0" + d1.getHours() : d1.getHours()) + ':' + (d1.getMinutes() < 10 ? "0" + d1.getMinutes() : d1.getMinutes())
+        sceneInfo.startTime = d1.getFullYear() + '-' + (d1.getMonth() + 1 < 10 ? "0" + (d1.getMonth() + 1) : d1.getMonth() + 1) + '-' + (d1.getDate() < 10 ? "0" + d1.getDate() : d1.getDate()) + ' ' + (d1.getHours() < 10 ? "0" + d1.getHours() : d1.getHours()) + ':' + (d1.getMinutes() < 10 ? "0" + d1.getMinutes() : d1.getMinutes())
         var d2 = new Date(data.data.endTime)
-        var endTime = d2.getFullYear() + '-' + (d2.getMonth() + 1 < 10 ? "0" + (d2.getMonth() + 1) : d2.getMonth() + 1) + '-' + (d2.getDate() < 10 ? "0" + d2.getDate() : d2.getDate()) + ' ' + (d2.getHours() < 10 ? "0" + d2.getHours() : d2.getHours()) + ':' + (d2.getMinutes() < 10 ? "0" + d2.getMinutes() : d2.getMinutes())
+        sceneInfo.endTime = d2.getFullYear() + '-' + (d2.getMonth() + 1 < 10 ? "0" + (d2.getMonth() + 1) : d2.getMonth() + 1) + '-' + (d2.getDate() < 10 ? "0" + d2.getDate() : d2.getDate()) + ' ' + (d2.getHours() < 10 ? "0" + d2.getHours() : d2.getHours()) + ':' + (d2.getMinutes() < 10 ? "0" + d2.getMinutes() : d2.getMinutes())
         that.setData({
-          theme: data.data.theme,
-          hoster: data.data.hoster,
-          starttime: startTime,
-          endtime: endTime,
-          address: data.data.address,
-          ifRegister: data.data.ifRegister,
-          mymessage: data.data.message,
-          mode: data.data.mode,
+          scene:sceneInfo
         })
         console.log(that.data)
       }

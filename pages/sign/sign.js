@@ -207,15 +207,16 @@ signThis: function(e) {
           confirmText:"Nice！",
           success: function (res) {
             wx.redirectTo({
-              url: 'pages/scene/scene' + "?sceneId=" + sceneId,
+              url: '../scene/scene' + "?sceneID=" + data.data.sceneID,
             })
           }
         })
       }else{
         wx.showModal({
-          title: '签到失败，该信标未绑定事件',
+          title: '签到失败',
+          content: data.data.msg,
           showCancel: false,
-          confirmText: "重新找找",
+          confirmText: "OK",
         })
       }
     },

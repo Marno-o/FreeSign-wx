@@ -35,7 +35,7 @@ page{
 }
 
 .section__title{
-  font-size: 35rpx;
+  font-size: 40rpx;
   font-weight: bold;
   height: 38px;
   line-height: 38px

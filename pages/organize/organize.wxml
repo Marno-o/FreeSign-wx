@@ -18,7 +18,7 @@
   <view class="formContent">
     <form bindsubmit="subform">
       <!-- swiper组件 -->
-      <swiper current="{{currentTab}}" vertical="true" style="height:{{height}}px" duration="350" easing-function="linear">
+      <swiper current="{{currentTab}}" vertical="true" style="height:{{height}}px" duration="150" easing-function="linear">
         <!-- 第一页 -->
         <swiper-item class="fstpage" style="height:{{height}}px">
           <scroll-view scroll-y="true" style="height:80%">
