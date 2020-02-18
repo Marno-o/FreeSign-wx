@@ -1,57 +1,56 @@
 <!-- index.wxml-->
-<view >
+<view>
   <!-- 标题 -->
   <view class="formHead" style="padding-left:0">
     <view class="container">
       <view class="userinfo">
         <block>
-          <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+          <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
           <text class="userinfo-nickname">{{userInfo.nickName}}</text>
         </block>
       </view>
-      <view class="usermotto">
+      <!-- <view class="usermotto">
         <text class="user-motto">{{motto}}</text>
-      </view>
+      </view> -->
     </view>
   </view>
 
   <!-- 表格内容 -->
   <view class="formContent">
     <!-- swiper组件 -->
-    <swiper current="{{currentTab}}" vertical="true" style="height:{{height}}px" duration="350" easing-function="linear">
+    <swiper current="{{currentTab}}" style="height:{{height}}px" indicator-dots="true" duration="150" easing-function="linear">
       <!-- 第一页 -->
-      <swiper-item class="fstpage" style="height:{{height}}px">
-        <scroll-view scroll-y="true" style="height:80%">
-
-          <view class="itemStyle" bindtap="myInfo">
-            <view class="section__title userinfo">我的资料</view>
-          </view>
-
-          <view class="itemStyle" style="height:{{height}}rpx;padding-left: 40rpx;padding-right: 40rpx;">
-            <view class="section__title userinfo">我组织的会议</view>
-            <view class="hr"></view>
-            <scroll-view scroll-y="true" style="height:80%;">
-              <block wx:for-items="{{sceneList}}" wx:key="sceneID">
-                <button class="list-button" style="width:75%;background-color:red" bindtap="scene" data-id="{{item.sceneID}}">
-                  {{item.theme}}
-                </button>
-              </block>
-            </scroll-view>
-          </view>
-
-          <!-- 切换swiper按钮 -->
-          <view style="position:fixed;bottom:80rpx;left:0;right:0">
-            <button bindtap="nextstep" data-current="1">下一步：选择信标</button>
-          </view>
-
-        </scroll-view>
+      <swiper-item>
+        <view class="itemStyle" style="height:85%;padding-left: 40rpx;padding-right: 40rpx;">
+          <view class="section__title userinfo">尚未开始的场景</view>
+          <view class="hr"></view>
+          <scroll-view scroll-y="true" style="height:85%;display: flex;flex-direction: column;align-items: center;">
+            <block wx:for-items="{{sceneListReady}}" wx:key="sceneID">
+            <view style="margin-bottom:20rpx">
+              <button class="list-button"  hover-class="btn-hover" style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
+                {{item.theme}}
+              </button>
+              </view>
+            </block>
+          </scroll-view>
+        </view>
       </swiper-item>
 
       <!-- 第二页 -->
-      <swiper-item class="secondpage" style="height:{{height}}px">
-        <scroll-view scroll-y="true" style="height:80%">
-
-        </scroll-view>
+      <swiper-item>
+        <view class="itemStyle" style="height:85%;padding-left: 40rpx;padding-right: 40rpx;">
+          <view class="section__title userinfo">全部场景</view>
+          <view class="hr"></view>
+          <scroll-view scroll-y="true" style="height:85%;display: flex;flex-direction: column;align-items: center;">
+            <block wx:for-items="{{sceneListDone}}" wx:key="sceneID">
+            <view style="margin-bottom:20rpx">
+              <button class="list-button"  hover-class="btn-hover" style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
+                {{item.theme}}
+              </button>
+              </view>
+            </block>
+          </scroll-view>
+        </view>
       </swiper-item>
     </swiper>
   </view>

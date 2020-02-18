@@ -1,5 +1,9 @@
 /**index.wxss**/
-
+.formHead{
+  padding-top: 100rpx;
+  padding-bottom: 60rpx;
+  padding-left:80rpx; 
+}
 .userinfo {
   display: flex;
   flex-direction: column;
@@ -21,11 +25,6 @@
   margin-top: 20px;
 }
 
-.formHead{
-  padding-top: 100rpx;
-  padding-bottom: 60rpx;
-  padding-left:80rpx; 
-}
 .fsttitle{
   font-size: 45rpx;
   font-weight: bold
@@ -67,7 +66,15 @@
 }
 
 .list-button {
-  margin: 10rpx;
-  border-radius: 4rpx;
+  margin-bottom: 20rpx;
+  border-radius: 60rpx;
   overflow: hidden;
+  box-shadow: 2rpx 2rpx 2rpx 0rpx rgba(0,64,128,.2);
+  width:90%;
+  background-color:#bad7df;
+  font-weight:normal;
+}
+
+.btn-hover{
+  background-color:#7fb1be !important;
 }

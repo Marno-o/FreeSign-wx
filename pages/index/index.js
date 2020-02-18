@@ -8,19 +8,22 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    sceneList: []
+    sceneListReady: [],
+    sceneListDone: []
   },
 
   onShow: function() {
     this.ifLogin()
-    this.getSceneList()
+    this.getSceneListReady()
+    this.getSceneListDone()
   },
 
   onLoad: function() {
     this.ifLogin()
     let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的useable高度
+    let windowWidth = wx.getSystemInfoSync().windowWidth; 
     this.setData({
-      height: windowHeight - 100
+      height: windowHeight - 450*windowWidth/750
     });
   },
 
@@ -39,11 +42,11 @@ Page({
     }
   },
 
-  getSceneList: function() {
+  getSceneListReady: function() {
     var that = this
     if (app.globalData.ifUserSign){
       wx.request({
-        url: app.globalData.host + '/getscenebyoid',
+        url: app.globalData.host + '/getscenebyoid/ready',
         method: 'post',
         header: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -54,9 +57,32 @@ Page({
         success: data => {
           console.log(data.data)
           that.setData({
-            sceneList: data.data
+            sceneListReady: data.data
           })
-          console.log(that.data.sceneList)
+          console.log(that.data.sceneListReady)
+        }
+      })
+    }
+  },
+
+  getSceneListDone: function () {
+    var that = this
+    if (app.globalData.ifUserSign) {
+      wx.request({
+        url: app.globalData.host + '/getscenebyoid/done',
+        method: 'post',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: {
+          originatorID: app.globalData.userInfo.openId
+        },
+        success: data => {
+          console.log(data.data)
+          that.setData({
+            sceneListDone: data.data
+          })
+          console.log(that.data.sceneListDone)
         }
       })
     }
