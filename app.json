@@ -5,7 +5,8 @@
     "pages/index/index",
     "pages/scene/scene",
     "pages/organize/organize",
-    "pages/userLogin/login"
+    "pages/userLogin/login",
+    "pages/detail/detail"
   ],
   "window": {
     "backgroundTextStyle": "light",

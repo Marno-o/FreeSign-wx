@@ -8,7 +8,7 @@
     </view>
     <view style="padding-left: 110rpx;">
       <view class="fsttitle">发起新场景</view>
-      <view class="secondtitle">发起人：{{userInfo.nickName}}</view>
+      <view class="secondtitle">发起人：{{userInfo.userName}}</view>
     </view>
 
 

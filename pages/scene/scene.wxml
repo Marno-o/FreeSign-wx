@@ -53,10 +53,10 @@
         <!-- 需要报名 -->
         <view class="itemStyle">
           <view class="section__title">需要报名
-            <switch style="float:right;height:100%" checked="{{ifRegister == 1}}" disabled="true" />
+            <switch style="float:right;height:100%" checked="{{scene.ifRegister == 1}}" disabled="true" />
           </view>
           <view class="hr"></view>
-          <view wx:if="{{ifRegister == 1}}">
+          <view wx:if="{{scene.ifRegister == 1}}">
             <view>点击右上角转发到群里邀请报名</view>
             <view wx:if="{{scene.message == ''}}">
               <view>没有留言</view>
@@ -65,6 +65,7 @@
               <view class="title">留 言:</view>
               <view>{{scene.message}}</view>
             </view>
+            <button open-type='share'>邀请报名</button>
           </view>
 
           <view wx:else>
@@ -88,7 +89,7 @@
 
         </scroll-view>
       </view>
-      <button wx:if="{{userInfo.openId != scene.originatorID}}" bindtap="register" data-current="1">报名参加</button>
+      <button wx:if="{{!iMade}}" bindtap="register" data-current="1">报名参加</button>
   </view>
 
 </view>

@@ -1,0 +1,40 @@
+<!--pages/detail/detail.wxml-->
+<!-- 表格内容 -->
+  <view class="formContent ">
+    <!-- swiper组件 -->
+    <swiper current="{{current}} " style="height:{{height}}px " indicator-dots="true " duration="150 " easing-function="linear ">
+      <!-- 第一页 -->
+      <swiper-item>
+        <view class="itemStyle " style="height:90%;padding-left: 40rpx;padding-right: 40rpx; ">
+          <view class="section__title userinfo ">准备就绪</view>
+          <view class="hr "></view>
+          <scroll-view scroll-y="true " style="height:90%;display: flex;flex-direction: column;align-items: center; ">
+            <block wx:for-items="{{sceneListReady}}" wx:key="sceneID">
+              <view style="margin-bottom:20rpx ">
+                <button class="list-button" hover-class="btn-hover" style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
+                  {{item.theme}}
+                </button>
+              </view>
+            </block>
+          </scroll-view>
+        </view>
+      </swiper-item>
+
+      <!-- 第二页 -->
+      <swiper-item>
+        <view class="itemStyle " style="height:90%;padding-left: 40rpx;padding-right: 40rpx; ">
+          <view class="section__title userinfo ">全部场景</view>
+          <view class="hr "></view>
+          <scroll-view scroll-y="true " style="height:90%;display: flex;flex-direction: column;align-items: center; ">
+            <block wx:for-items="{{sceneListDone}}" wx:key="sceneID">
+              <view style="margin-bottom:20rpx ">
+                <button class="list-button" hover-class="btn-hover " style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
+                  {{item.theme}}
+                </button>
+              </view>
+            </block>
+          </scroll-view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
