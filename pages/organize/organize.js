@@ -351,7 +351,7 @@ Page({
           },
           data: {
             originatorID: thatt.data.userInfo.userID,
-            userName: thatt.data.userInfo.nickName,
+            userName: thatt.data.userInfo.userName,
             theme: e.detail.value.theme,
             hoster: e.detail.value.hoster,
             starttime: e.detail.value.starttime,

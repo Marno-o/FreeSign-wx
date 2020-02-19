@@ -118,13 +118,14 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-    var sendmsg = this.data.userInfo.userName + "邀请你参加" + this.data.scene.theme + " " + this.data.scene.message;　　 // 设置转发内容
+    var sendmsg = this.data.scene.userName + "邀请你参加" + this.data.scene.theme + " " + this.data.scene.message;　　 // 设置转发内容
     var that = this
     console.log(sendmsg)
     var shareObj = {
       title: sendmsg,
       path: '/pages/scene/scene?sceneID=' + that.data.scene.sceneID,
     };
+    return shareObj
   },
 
   nextstep(e) {
