@@ -195,7 +195,7 @@ signThis: function(e) {
     },
     data: {
       btId: e.currentTarget.dataset.id,
-      memberId: app.globalData.userInfo.openId
+      memberId: app.globalData.userInfo.userID
     },
     success: data => {
       wx.hideLoading()

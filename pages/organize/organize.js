@@ -350,7 +350,7 @@ Page({
             'content-type': 'application/x-www-form-urlencoded'
           },
           data: {
-            originatorID: thatt.data.userInfo.openId,
+            originatorID: thatt.data.userInfo.userID,
             userName: thatt.data.userInfo.nickName,
             theme: e.detail.value.theme,
             hoster: e.detail.value.hoster,
