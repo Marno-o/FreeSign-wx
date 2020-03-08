@@ -9,26 +9,34 @@ Page({
       {
         name:"蓝牙签到",
         url:"sign",
-        pic:"src/2.jpg"
+        pic:"src/bluetooth.png"
       },
       {
         name: "NFC签到",
         url:"sbn",
-        pic: "src/2.jpg"
+        pic: "src/NFC.png"
       },
       {
         name: "组织签到",
         url:"organize",
-        pic: "src/2.jpg"
+        pic: "src/organize.png"
       }
-    ]
+    ],
+    itemHeight:"",
+    marginHeight:""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的高度
+    var itemHeight = windowHeight * 0.3
+    var marginHeight = windowHeight * 0.05
+    this.setData({
+      itemHeight: itemHeight,
+      marginHeight: marginHeight
+    })
   },
 
   /**

@@ -1,11 +1,11 @@
 <!--pages/menu/menu.wxml-->
-<view >
-<view wx:for-items="{{menu}}" wx:key="deviceId" class="center">
-  <view open-type="getUserInfo" bindtap="jumpToPage" data-url="{{item.url}}">
-    <image class="picButton" src="{{item.pic}}" mode="widthFix"></image>
-    <view style="display:flex;justify-content:center;align-items:center">
-      {{item.name}}  
+<view style="padding-top:{{marginHeight}}px;padding-bottom:{{marginHeight}}px">
+  <view wx:for-items="{{menu}}" wx:key="deviceId" class="center" style="height:{{itemHeight}}px">
+    <view open-type="getUserInfo" bindtap="jumpToPage" data-url="{{item.url}}">
+      <image class="picButton" src="{{item.pic}}" mode="widthFix"></image>
+      <view style="display:flex;justify-content:center;align-items:center">
+        {{item.name}}
+      </view>
     </view>
   </view>
-</view>
 </view>

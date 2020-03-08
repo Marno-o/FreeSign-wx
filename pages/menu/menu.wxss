@@ -3,17 +3,14 @@
 .picButton {
   display: flex;
   justify-content: center;
-  background-color: red;
-  margin-top: 100rpx;
-  width: 200rpx;
-  height: 200rpx;
+  width: 280rpx;
+  height: 280rpx;
   border-radius: 50%;
   overflow: hidden;
 }
 
 .center {
   width:100%;
-  height:100%;
   display: flex;
   justify-content: center;
   align-items: center;
