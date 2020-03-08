@@ -5,7 +5,7 @@
   <!-- 标题 -->
   <view class="formHead">
     <view style="float:left">
-      <image style="width: 100rpx;height: 100rpx;border-radius: 50%; margin-rignt:20rpx" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <image style="width: 100rpx;height: 100rpx;border-radius: 50%; margin-rignt:20rpx" src="{{scene.userPic}}" mode="cover"></image>
     </view>
     <view style="padding-left: 110rpx;">
       <view class="fsttitle">{{scene.theme}}</view>
@@ -17,79 +17,84 @@
 
   <!-- 表格内容 -->
   <view class="formContent">
-        <!-- 场景主题 -->
-        <view class="itemStyle" style="margin-top:0">
-          <view class="section__title">场景主题</view>
-          <view class="hr"></view>
-          <view class="cont">
-            <view style="margin-bottom:10rpx">
-              <view class="title">名 称：{{scene.theme}}</view>
-            </view>
-            <view>
-              <view class="title">主 持：{{scene.hoster}}</view>
-            </view>
-          </view>
+    <!-- 场景主题 -->
+    <view class="itemStyle" style="margin-top:0">
+      <view class="section__title">场景主题</view>
+      <view class="hr"></view>
+      <view class="cont">
+        <view style="margin-bottom:10rpx">
+          <view class="title">名 称：{{scene.theme}}</view>
         </view>
-
-        <!-- 时间地点 -->
-        <view class="itemStyle">
-          <view class="section__title">时间地点</view>
-          <view class="hr"></view>
-          <view class="cont">
-            <view style="margin-bottom:10rpx">
-              <view class="title">开始时间</view>
-              <view class="picker">{{scene.startTime}}</view>
-            </view>
-            <view style="margin-bottom:10rpx">
-              <view class="title">结束时间</view>
-              <view class="picker">{{scene.endTime}}</view>
-            </view>
-            <view>
-              <view class="title">地 点：{{scene.address}}</view>
-            </view>
-          </view>
+        <view>
+          <view class="title">主 持：{{scene.hoster}}</view>
         </view>
+      </view>
+    </view>
 
-        <!-- 需要报名 -->
-        <view class="itemStyle">
-          <view class="section__title">需要报名
-            <switch style="float:right;height:100%" checked="{{scene.ifRegister == 1}}" disabled="true" />
-          </view>
-          <view class="hr"></view>
-          <view wx:if="{{scene.ifRegister == 1}}">
-            <view>点击右上角转发到群里邀请报名</view>
-            <view wx:if="{{scene.message == ''}}">
-              <view>没有留言</view>
-            </view>
-            <view wx:else>
-              <view class="title">留 言:</view>
-              <view>{{scene.message}}</view>
-            </view>
-            <button open-type='share'>邀请报名</button>
-          </view>
-
-          <view wx:else>
-            <view>无需报名</view>
-          </view>
+    <!-- 时间地点 -->
+    <view class="itemStyle">
+      <view class="section__title">时间地点</view>
+      <view class="hr"></view>
+      <view class="cont">
+        <view style="margin-bottom:10rpx">
+          <view class="title">开始时间</view>
+          <view class="picker">{{scene.startTime}}</view>
         </view>
-
-        <!-- 签到方式 -->
-        <view class="itemStyle">
-          <view class="section__title">签到方式
-            <view style="padding-left: 10rpx;padding-right:10rpx;float:right;font-weight:normal;">
-              <label wx:if="{{scene.mode == 1}}" style="margin-right:15px">蓝牙信标</label>
-              <label wx:else>其他</label>
-            </view>
-          </view>
+        <view style="margin-bottom:10rpx">
+          <view class="title">结束时间</view>
+          <view class="picker">{{scene.endTime}}</view>
         </view>
-      <view class="itemStyle" style="text-align:center;margin-top:0">
-        <view class="section__title">签到详情</view>
-        <view class="hr"></view>
-        <scroll-view scroll-y="true" style="height:900rpx;margin-top:70rpx">
+        <view>
+          <view class="title">地 点：{{scene.address}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 需要报名 -->
+    <view class="itemStyle">
+      <view class="section__title">需要报名
+        <switch style="float:right;height:100%" checked="{{scene.ifRegister == 1}}" disabled="true" />
+      </view>
+      <view class="hr"></view>
+      <view wx:if="{{scene.ifRegister == 1}}">
+        <view>点击右上角转发到群里邀请报名</view>
+        <view wx:if="{{scene.message == ''}}">
+          <view>没有留言</view>
+        </view>
+        <view wx:else>
+          <view class="title">留 言:</view>
+          <view>{{scene.message}}</view>
+        </view>
+        <button open-type='share'>邀请报名</button>
+      </view>
+
+      <view wx:else>
+        <view>无需报名</view>
+      </view>
+    </view>
+
+    <!-- 签到方式 -->
+    <view class="itemStyle">
+      <view class="section__title">签到方式
+        <view style="padding-left: 10rpx;padding-right:10rpx;float:right;font-weight:normal;">
+          <label wx:if="{{scene.mode == 1}}" style="margin-right:15px">蓝牙信标</label>
+          <label wx:else>其他</label>
+        </view>
+      </view>
+    </view>
+    <view class="itemStyle" style="text-align:center;margin-top:0">
+      <view class="section__title">签到详情</view>
+      <view class="hr"></view>
+      <view class="detaliInfo">
+        <scroll-view wx:if="{{memberList}}" scroll-y="true" style="height:900rpx;margin-top:70rpx">
 
         </scroll-view>
+        <view wx:else>等待报名...</view>
       </view>
-      <button wx:if="{{!iMade}}" bindtap="register" data-current="1">报名参加</button>
+
+    </view>
+    <button wx:if="{{!iMade}}" bindtap="register" style="margin-bottom:20rpx">报名参加</button>
+    <button wx:else type="warn" bindtap="deleteIt" style="margin-bottom:20rpx">删除任务</button>
   </view>
 
 </view>

@@ -153,4 +153,40 @@ Page({
     }
   },
 
+  deleteIt(e){
+    wx.showModal({
+      title: '是否删除',
+      content:"此操作不可撤销",
+      confirmText: "删除",
+      cancelText:"取消",
+      success: function () {
+        wx.request({
+          url: app.globalData.host + '/deleteit',
+          method: 'post',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          data: {
+            sceneID: options.sceneID
+          },
+          success: data => {
+            if(data.data == 1){
+              wx.showToast({
+                title: '删除成功',
+              })
+              wx.navigateTo({
+                url: '../index/index',
+              })
+            }else{
+
+            }
+
+          }
+
+        })        
+
+      }
+    })
+    
+  }
 })
