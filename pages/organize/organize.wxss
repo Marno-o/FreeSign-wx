@@ -4,8 +4,8 @@ page{
 }
 
 .formHead{
-  padding-top: 100rpx;
-  padding-bottom: 60rpx;
+  padding-top: 60rpx;
+  padding-bottom: 40rpx;
   padding-left:80rpx; 
 }
 .fsttitle{

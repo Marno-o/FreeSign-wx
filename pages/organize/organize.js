@@ -31,6 +31,7 @@ Page({
     addressInfo:"点击选择地图上的地点",
     ifdelay: false,
     ifRegister: true,
+    allowForward:true,
     timelong: 30,
     height: 1000,
     currentTab: 0,
@@ -130,7 +131,15 @@ Page({
   //需要报名
   ifRegister: function(e) {
     this.setData({
-      ifRegister: e.detail.value
+      ifRegister: e.detail.value,
+      allowForward: true
+    })
+  },
+
+//二次转发
+  allowForwardChange: function (e) {
+    this.setData({
+      allowForward: e.detail.value
     })
   },
 
@@ -189,16 +198,13 @@ Page({
   // 签到方式发生改变
   modeChange: function(e) {
     var that = this
-    if (e.detail.value) {
-      that.setData({
-        ifbt: e.detail.value
-      })
+    that.setData({
+      ifbt: e.detail.value
+    })
+    if (e.detail.value == 1) {
       that.openBluetoothAdapter();
       console.log(that.data.ifbt)
     } else {
-      that.setData({
-        ifbt: e.detail.value
-      })
       that.closeBluetoothAdapter()
       console.log(that.data.ifbt)
     }

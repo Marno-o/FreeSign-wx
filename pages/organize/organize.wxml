@@ -4,9 +4,9 @@
   <!-- 标题 -->
   <view class="formHead">
     <view style="float:left">
-      <image style="width: 100rpx;height: 100rpx;border-radius: 50%; margin-rignt:20rpx" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <image style="width: 150rpx;height: 150rpx;border-radius: 50%; margin-rignt:20rpx" src="{{userInfo.avatarUrl}}" mode="cover"></image>
     </view>
-    <view style="padding-left: 110rpx;">
+    <view style="padding-left: 170rpx;padding-top: 50rpx;">
       <view class="fsttitle">发起新场景</view>
       <view class="secondtitle">发起人：{{userInfo.userName}}</view>
     </view>
@@ -100,6 +100,20 @@
 
               <view wx:else>
                 <view>无需报名</view>
+              </view>
+            </view>
+
+            <!-- 允许二次转发 -->
+            <view wx:if="{{ifRegister}}" class="itemStyle">
+              <view class="section__title">是否允许二次转发
+                <switch name="allowForward" style="float:right;height:100%" checked="{{allowForward}}" bindchange="allowForwardChange" />
+              </view>
+              <view class="hr"></view>
+              <view wx:if="{{allowForward}}">
+                <view>受到邀请的用户可以转发并邀请别人</view>
+              </view>
+              <view wx:else>
+                <view>只有你可以转发</view>
               </view>
             </view>
 
