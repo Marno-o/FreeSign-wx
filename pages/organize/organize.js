@@ -27,6 +27,8 @@ Page({
     starttime: "",
     date: "",
     time: "",
+    addressMeta:"custom",
+    addressInfo:"点击选择地图上的地点",
     ifdelay: false,
     ifRegister: true,
     timelong: 30,
@@ -169,6 +171,19 @@ Page({
     this.setData({
       currentTab: e.target.dataset.current
     })
+  },
+
+  
+  // 地图模式发生改变
+  changeAddressMeta: function(e) {
+    var that = this
+    if (e.detail.value == "getFromMap") {
+      //可能需要弹窗提示
+    }
+    this.setData({
+      addressMeta: e.detail.value
+    })
+    console.log('address发生change事件，携带value值为：', e.detail.value)
   },
 
   // 签到方式发生改变
@@ -351,6 +366,7 @@ Page({
           },
           data: {
             originatorID: thatt.data.userInfo.userID,
+            userPic: thatt.data.userInfo.avatarUrl,
             userName: thatt.data.userInfo.userName,
             theme: e.detail.value.theme,
             hoster: e.detail.value.hoster,
@@ -365,25 +381,26 @@ Page({
           },
           success: data => {
             wx.hideLoading()
-            if(data.data == 1){
+            if(data.data.motto == 1){
+              var newsceneID = data.data.newsceneID
               wx.showModal({
                 title: '新建成功，即将跳转个人页面',
                 showCancel: false,
                 confirmText: "好",
                 success: function (res) {
-                  wx.switchTab({
-                    url: '../index/index',
+                  wx.redirectTo({
+                    url: '../scene/scene?sceneID=' +newsceneID,
                   })
                 }
               })
-            } else if (data.data == 2) {
+            } else if (data.data.motto == 2) {
               wx.showModal({
                 title: '新建任务失败',
                 content: '这个信标已经被你用过啦，先停止它的任务吧！',
                 showCancel: false,
                 confirmText: "好"
               })
-            } else if (data.data == 3){
+            } else if (data.data.motto == 3){
               wx.showModal({
                 title: '新建任务失败',
                 content: '这个信标已经被别人用啦，换个信标试试吧！',

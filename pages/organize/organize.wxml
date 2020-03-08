@@ -38,9 +38,9 @@
               </view>
             </view>
 
-            <!-- 时间地点 -->
+            <!-- 时间 -->
             <view class="itemStyle">
-              <view class="section__title">时间地点</view>
+              <view class="section__title">选择时间</view>
               <view class="hr"></view>
               <view class="cont">
                 <view style="margin-bottom:10rpx">
@@ -56,12 +56,35 @@
                   <view class="title">预 计 时 长： {{timelong}}分钟</view>
                   <slider name="timelong" bindchange="settimelong" min="30" max="120" step="30" value="{{timelong}}"></slider>
                 </view>
-                <view>
-                  <view class="title">地 点：</view>
+              </view>
+            </view>
+
+            <!-- 地点 -->
+            <view class="itemStyle">
+              <view class="section__title">选择地点</view>
+              <view class="hr"></view>
+              <view class="cont">
+                <radio-group name="addressMode" bindchange="changeAddressMeta" style="margin:20rpx">
+                  <label style="margin-right:15%">
+                    <radio value="custom" checked="true" />自定义地点</label>
+                  <label>
+                    <radio value="getFromMap" />地图选点</label>
+                </radio-group>
+                <view wx:if="{{addressMeta == 'custom'}}">
                   <input name="address" placeholder="例：302会议室" />
+                </view>
+                <view wx:else>
+                  <view class="map" style="width: 100%; height: 120px;">
+                    <map id="myMap" style="width: 100%; height: 100%;" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" covers="{{covers}}" show-location>
+                    </map>
+                  </view>
+                  <view style="text-align:center;margin:10rpx;font-weight:bold">
+                    {{addressInfo}}
+                  </view>
                 </view>
               </view>
             </view>
+
 
             <!-- 需要报名 -->
             <view class="itemStyle">
@@ -71,7 +94,7 @@
               <view class="hr"></view>
               <view wx:if="{{ifRegister}}">
                 <view>完成后转发可见此留言</view>
-                <view  class="title">请 输 入 留 言：</view>
+                <view class="title">请 输 入 留 言：</view>
                 <input name="mymessage" placeholder="例：请各部门派三人参加" />
               </view>
 
