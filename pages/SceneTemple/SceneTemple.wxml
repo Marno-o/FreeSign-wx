@@ -1,0 +1,306 @@
+<view>
+  <!-- 标题 -->
+  <view class="formHead">
+    <view style="float:left">
+      <image class="headPic" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+    </view>
+    <view class="sceneTitle">
+
+      <view wx:if="{{mode=='new'}}" class="fsttitle">发起新场景</view>
+      <view wx:else class="fsttitle">{{sceneInfo.theme}}</view>
+
+      <view wx:if="{{mode=='new'}}" class="secondtitle">发起人：{{userInfo.userName}}</view>
+      <view wx:else class="secondtitle">主持人：{{sceneInfo.hoster}}</view>
+
+    </view>
+  </view>
+
+  <!-- 表格内容 -->
+  <view class="formContent">
+    <form bindsubmit="subform">
+      <!-- swiper组件 -->
+      <swiper current="{{currentTab}}" vertical="true" style="height:{{contantHeight}}px" duration="150" easing-function="linear">
+        <!-- 第一页 -->
+        <swiper-item class="fstpage" style="height:{{contantHeight}}px">
+          <scroll-view scroll-y="true" style="height:100%">
+            <!-- 场景主题 -->
+
+            <view wx:if="{{mode=='new'}}" class="itemStyle topInSwiper">
+
+              <view class="section__title">场景主题</view>
+              <view class="hr"></view>
+
+              <view class="cont">
+
+                <view style="margin-bottom:10rpx">
+                  <view class="title">名 称：</view>
+                  <input name="theme" placeholder="例：XXX会议" focus="true" />
+                </view>
+
+                <view>
+                  <view class="title">主 持 人：</view>
+                  <input name="hoster" placeholder="请输入 主持人姓名 或 主持单位" />
+                </view>
+
+              </view>
+
+            </view>
+
+            <!-- 时间 -->
+            <view class="itemStyle">
+
+              <view wx:if="{{mode=='new'}}" class="section__title">选择时间</view>
+              <view wx:else class="section__title">时间</view>
+
+              <view class="hr"></view>
+
+              <view class="cont">
+
+                <view class="onePart">
+                  <view class="title">开 始 时 间：</view>
+
+                  <view wx:if="{{mode=='new'}}">
+                    <picker name="startdate" mode="date" value="{{date}}" start="{{startdate}}" bindchange="dateChange">
+                      <view class="picker">{{date}}</view>
+                    </picker>
+                    <picker name="starttime" mode="time" value="{{time}}" start="{{starttime}}" bindchange="timeChange">
+                      <view class="picker">{{time}}</view>
+                    </picker>
+                  </view>
+
+                  <view wx:else>
+                    <view class="picker">{{sceneInfo.startTime}}</view>
+                  </view>
+                </view>
+
+                <view class="onePart">
+                  <view wx:if="{{mode=='new'}}">
+                    <view class="title">预 计 时 长： {{timelong}}分钟</view>
+                    <slider name="timelong" bindchange="settimelong" min="30" max="120" step="30" value="{{timelong}}"></slider>
+                  </view>
+
+                  <view wx:else>
+                    <view class="title">结束时间</view>
+                    <view class="picker">{{sceneInfo.endTime}}</view>
+                  </view>
+                </view>
+
+              </view>
+
+            </view>
+
+            <!-- 地点 -->
+            <view class="itemStyle">
+
+              <view wx:if="{{mode=='new'}}" class="section__title">选择地点</view>
+              <view wx:else class="section__title">地点</view>
+
+              <view class="hr"></view>
+
+              <view class="cont">
+
+                <view wx:if="{{mode=='new'}}">
+                  <view class="onePart">
+                    <radio-group name="addressMode" bindchange="changeAddressMeta" style="margin:20rpx">
+                      <label style="margin-right:15%">
+                        <radio value="custom" checked="true" />自定义地点</label>
+                      <label>
+                        <radio value="getFromMap" />地图选点</label>
+                    </radio-group>
+                  </view>
+
+                  <view class="onePart">
+                    <view wx:if="{{addressMeta == 'custom'}}">
+                      <input name="address" placeholder="例：302会议室" />
+                    </view>
+
+                    <view wx:else>
+                      <view class="map" style="width: 100%; height: 120px;">
+                        <map id="myMap" style="width: 100%; height: 100%;" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" covers="{{covers}}" show-location>
+                        </map>
+                      </view>
+                      <view style="text-align:center;margin:10rpx;font-weight:bold">
+                        {{addressInfo}}
+                      </view>
+                    </view>
+                  </view>
+
+                </view>
+
+                <view wx:else>
+                  <view class="onePart">
+                    <view class="title">地 点：{{sceneInfo.address}}</view>
+                  </view>
+                </view>
+
+              </view>
+
+            </view>
+
+
+            <!-- 需要报名 -->
+            <view class="itemStyle">
+
+              <view class="section__title">需要报名
+                <switch name="ifRegister" class="titleSwitch" checked="{{ifRegister}}" bindchange="ifRegister" disabled="{{mode!='new'}}" />
+              </view>
+
+              <view class="hr"></view>
+              <view class="cont">
+                <view wx:if="{{mode=='new'}}">
+
+                  <view wx:if="{{ifRegister}}">
+                    <view class="onePart">
+                      <view>完成后转发可见此留言</view>
+                    </view>
+                    <view class="onePart">
+                      <view class="title">请 输 入 留 言：</view>
+                      <input name="mymessage" placeholder="例：请各部门派三人参加" />
+                    </view>
+                  </view>
+
+                  <view wx:else>
+                    <view class="onePart">
+                      <view>无需报名</view>
+                    </view>
+                  </view>
+
+                </view>
+
+                <view wx:else>
+
+                  <view wx:if="{{sceneInfo.ifRegister == 1}}">
+                    <view class="onePart">
+                      <view>点击右上角转发到群里邀请报名</view>
+                    </view>
+                    <view wx:if="{{sceneInfo.message == ''}}">
+                      <view class="onePart">
+                        <view>没有留言</view>
+                      </view>
+                    </view>
+
+                    <view wx:else>
+                      <view class="onePart">
+                        <view class="title">留 言:</view>
+                        <view>{{sceneInfo.message}}</view>
+                      </view>
+                    </view>
+                    <view class="onePart">
+                      <button wx:if="{{allowForward}}" open-type='share'>邀请报名</button>
+                      <button wx:else open-type='share'>仅组织者可以转发邀请</button>
+                    </view>
+                  </view>
+
+                  <view wx:else>
+                    <view class="onePart">
+                      <view>无需报名</view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+
+            <!-- 允许二次转发 -->
+            <view wx:if="{{mode=='new'}}">
+              <view wx:if="{{ifRegister}}" class="itemStyle">
+                <view class="section__title">是否允许二次转发
+                  <switch name="allowForward" class="titleSwitch" checked="{{allowForward}}" bindchange="allowForwardChange" disabled="{{mode!='new'}}" />
+                </view>
+                <view class="hr"></view>
+                <view class="cont">
+                  <view class="onePart">
+
+                    <view wx:if="{{allowForward}}">
+                      <view>受到邀请的用户可以转发并邀请别人</view>
+                    </view>
+
+                    <view wx:else>
+                      <view>只有你可以转发</view>
+                    </view>
+
+                  </view>
+                </view>
+              </view>
+
+
+              <!-- 签到方式 -->
+              <view class="itemStyle">
+                <view class="section__title">签到方式
+                  <radio-group name="mode" class="besideTitle" bindchange="modeChange" class="titleRadio">
+                    <label style="margin-right:15px">
+                      <radio value="1" checked="true" />蓝牙信标</label>
+                    <label>
+                      <radio value="2" />其他</label>
+                  </radio-group>
+                </view>
+              </view>
+            </view>
+
+
+            <view wx:else>
+              <!-- 签到方式 -->
+              <view class="itemStyle">
+                <view class="section__title">签到方式
+                  <view class="titleRadio">
+                    <label wx:if="{{sceneInfo.mode == 1}}" style="margin-right:15px">蓝牙信标</label>
+                    <label wx:else>其他</label>
+                  </view>
+                </view>
+              </view>
+              <view class="itemStyle" style="text-align:center;margin-top:0">
+                <view class="section__title">签到详情</view>
+                <view class="hr"></view>
+                <view class="cont">
+                  <view class="detaliInfo">
+                    <scroll-view wx:if="{{memberList}}" scroll-y="true" style="height:900rpx;margin-top:70rpx">
+
+                    </scroll-view>
+                    <view wx:else>等待报名...</view>
+                  </view>
+                </view>
+              </view>
+              <button wx:if="{{!canDelete}}" bindtap="register" style="margin-bottom:40rpx">报名参加</button>
+              <button wx:else type="warn" bindtap="deleteIt" style="margin-bottom:40rpx">删除任务</button>
+            </view>
+
+            <!-- 切换swiper按钮 -->
+            <view wx:if="{{mode=='new'}}">
+              <button bindtap="nextstep" data-current="1" style="margin-bottom:40rpx">下一步：选择信标</button>
+            </view>
+
+          </scroll-view>
+        </swiper-item>
+
+        <!-- 第二页 -->
+        <view wx:if="{{mode=='new'}}">
+          <swiper-item class="secondpage" style="height:{{contantHeight}}px">
+            <scroll-view scroll-y="true" style="height:80%">
+
+              <view class="itemStyle" style="text-align:center;margin-top:0">
+                <block wx:if="{{ifbt == 1}}">
+                  <radio-group name="deviceId">
+                    <view class="section__title">{{motto}}</view>
+                    <view class="hr"></view>
+                    <scroll-view scroll-y="true" style="height:700rpx;margin-top:70rpx">
+                      <radio class="radio" wx:for-items="{{blueToothList}}" wx:key="deviceId" value="{{item.deviceId}}">
+                        <text>{{item.name}}</text>
+                      </radio>
+                    </scroll-view>
+                  </radio-group>
+                </block>
+                <block wx:else>
+                  <view class="section__title " style="text-align:center; ">others</view>
+                </block>
+              </view>
+
+              <!-- 提交 -->
+              <view class="btn-area ">
+                <button formType="submit" style="position:fixed;bottom:80rpx;left:0;right:0 ">提交</button>
+              </view>
+            </scroll-view>
+          </swiper-item>
+        </view>
+      </swiper>
+    </form>
+  </view>
+</view>

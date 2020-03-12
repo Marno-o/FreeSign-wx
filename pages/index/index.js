@@ -3,6 +3,13 @@
 const app = getApp()
 
 Page({
+
+  goToMypage: function (e) {
+    wx.navigateTo({
+      url: "../SceneTemple/SceneTemple"
+    })
+  },
+
   data: {
     height: 450,
     motto: 'Hello World',
@@ -48,7 +55,7 @@ Page({
     }
   },
 
-  //点击按钮痰喘指定的hiddenmodalput弹出框 
+  //点击按钮弹出指定的hiddenmodalput弹出框 
   inputNewName: function () {
     this.setData({
       hiddenmodalput: !this.data.hiddenmodalput
@@ -108,7 +115,7 @@ Page({
 
   scene: function (e) {
     wx.navigateTo({
-      url: '../scene/scene?sceneID=' + e.currentTarget.dataset.id
+      url: '../SceneTemple/SceneTemple?mode=view&sceneID=' + e.currentTarget.dataset.id
     })
   },
 
