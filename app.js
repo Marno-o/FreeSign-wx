@@ -4,7 +4,7 @@ App({
   globalData: {
     ifUserSign:false,
     userInfo: {},
-    host: 'http://localhost:80',
+    host: 'http://localhost:457',
     sceneId:"",
     hasNearly: false,
     theme:""
