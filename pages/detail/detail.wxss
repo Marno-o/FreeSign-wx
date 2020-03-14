@@ -1,5 +1,9 @@
 /* pages/detail/detail.wxss */
 
+.tab{
+  background-color:#7fb1be
+}
+
 .userinfo {
   display: flex;
   flex-direction: column;
@@ -54,7 +58,6 @@
   width: 100%;
   height: 5rpx;
   margin-top:10rpx;
-  margin-bottom:10rpx;
 }
 
 .list-button {

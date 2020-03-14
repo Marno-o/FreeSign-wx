@@ -1,40 +1,46 @@
 <!--pages/detail/detail.wxml-->
-<!-- 表格内容 -->
-  <view class="formContent ">
-    <!-- swiper组件 -->
-    <swiper current="{{current}} " style="height:{{height}}px " indicator-dots="true " duration="150 " easing-function="linear ">
-      <!-- 第一页 -->
-      <swiper-item>
-        <view class="itemStyle " style="height:90%;padding-left: 40rpx;padding-right: 40rpx; ">
-          <view class="section__title userinfo ">准备就绪</view>
-          <view class="hr "></view>
-          <scroll-view scroll-y="true " style="height:90%;display: flex;flex-direction: column;align-items: center; ">
-            <block wx:for-items="{{sceneListReady}}" wx:key="sceneID">
-              <view style="margin-bottom:20rpx ">
-                <button class="list-button" hover-class="btn-hover" style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
-                  {{item.theme}}
-                </button>
-              </view>
-            </block>
-          </scroll-view>
-        </view>
-      </swiper-item>
-
-      <!-- 第二页 -->
-      <swiper-item>
-        <view class="itemStyle " style="height:90%;padding-left: 40rpx;padding-right: 40rpx; ">
-          <view class="section__title userinfo ">全部场景</view>
-          <view class="hr "></view>
-          <scroll-view scroll-y="true " style="height:90%;display: flex;flex-direction: column;align-items: center; ">
-            <block wx:for-items="{{sceneListDone}}" wx:key="sceneID">
-              <view style="margin-bottom:20rpx ">
-                <button class="list-button" hover-class="btn-hover " style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
-                  {{item.theme}}
-                </button>
-              </view>
-            </block>
-          </scroll-view>
-        </view>
-      </swiper-item>
-    </swiper>
+<!-- 标题tab -->
+  <view class="{{current==0?'tab':''}}" style="width:{{width}}px;float:left;" bindtap="clicktab" data-id="0">
+    <view class="userinfo section__title" style="height: 100rpx;width:100%;line-height:100rpx;">准备就绪</view>
+    <view class="hr"></view>
   </view>
+  <view class="{{current==1?'tab':''}}" style="width:{{width}}px;float:left;" bindtap="clicktab" data-id="1">
+    <view class="userinfo section__title" style="height: 100rpx;width:100%;line-height:100rpx;">全部场景</view>
+    <view class="hr"></view>
+  </view>
+
+<!-- 表格内容 -->
+<view class="formContent ">
+  <!-- swiper组件 -->
+  <swiper current="{{current}} " style="height:{{height}}px " duration="150 " easing-function="linear" bindchange="currentChanged">
+    <!-- 第一页 -->
+    <swiper-item>
+      <view class="userinfo section__title" style="height:{{height}}px;line-height:{{height}}px;width:100%;" wx:if="{{listNull}}">所有场景均已结束</view>
+      <scroll-view scroll-y="true " style="height:100%;display: flex;flex-direction: column;align-items: center; " refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="white" refresher-background="#58b8bd" refresher-triggered="{{triggered}}"
+        bindrefresherpulling="onPulling" bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort">
+        <block wx:for-items="{{sceneListReady}}" wx:key="sceneID">
+          <view style="margin-bottom:20rpx ">
+            <button class="list-button" hover-class="btn-hover" style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
+              {{item.theme}}
+            </button>
+          </view>
+        </block>
+      </scroll-view>
+    </swiper-item>
+
+    <!-- 第二页 -->
+    <swiper-item>
+
+      <scroll-view scroll-y="true " style="height:100%;display: flex;flex-direction: column;align-items: center; " refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="white" refresher-background="#58b8bd" refresher-triggered="{{triggered}}"
+        bindrefresherpulling="onPulling" bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort">
+        <block wx:for-items="{{sceneListDone}}" wx:key="sceneID">
+          <view style="margin-bottom:20rpx ">
+            <button class="list-button" hover-class="btn-hover " style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
+              {{item.theme}}
+            </button>
+          </view>
+        </block>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+</view>
