@@ -259,13 +259,15 @@
                   </view>
                 </view>
               </view>
-              <button wx:if="{{!canDelete}}" bindtap="register" style="margin-bottom:40rpx">报名参加</button>
-              <button wx:else type="warn" bindtap="deleteIt" style="margin-bottom:40rpx">删除任务</button>
             </view>
 
             <!-- 切换swiper按钮 -->
             <view wx:if="{{mode=='new'}}">
               <button bindtap="nextstep" data-current="1" style="margin-bottom:40rpx">下一步：选择信标</button>
+            </view>
+            <view wx:else>
+              <button wx:if="{{!canDelete}}" bindtap="register" style="margin-bottom:40rpx">报名参加</button>
+              <button wx:else type="warn" bindtap="deleteIt" style="margin-bottom:40rpx">删除任务</button>
             </view>
 
           </scroll-view>

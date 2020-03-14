@@ -73,7 +73,7 @@ Page({
       this.setData({
         contantHeight: contantheight
       });
-      console.log(">>>"+this.data.contantHeight)
+      console.log(">>>" + rect.height)
     }).exec();
 
     //获取当前时间
