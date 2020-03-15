@@ -1,9 +1,11 @@
 /**index.wxss**/
-.formHead{
+
+.formHead {
   padding-top: 50rpx;
   padding-bottom: 60rpx;
-  padding-left:80rpx; 
+  padding-left: 80rpx;
 }
+
 .userinfo {
   display: flex;
   flex-direction: column;
@@ -25,58 +27,56 @@
   margin-top: 20px;
 }
 
-.fsttitle{
+.fsttitle {
   font-size: 45rpx;
-  font-weight: bold
+  font-weight: bold;
 }
-.secondtitle{
+
+.secondtitle {
   font-size: 30rpx;
 }
 
-.formContent{
-  padding-left: 40rpx;
-  padding-right: 40rpx;
-}
-.itemStyle{
+.itemStyle {
   margin: 90rpx;
   margin-top: 40rpx;
   margin-bottom: 30rpx;
-  background-color:rgb(250, 250, 250);
+  background-color: rgb(250, 250, 250);
   border-radius: 50rpx;
-  padding-top:20rpx;
-  padding-bottom:20rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
   padding-left: 30rpx;
   padding-right: 30rpx;
-  box-shadow: 5rpx 5rpx 20rpx 0rpx rgba(0,64,128,.2);
-  transition: box-shadow .3s;
+  box-shadow: 5rpx 5rpx 20rpx 0rpx rgba(0, 64, 128, 0.2);
+  transition: box-shadow 0.3s;
 }
 
-.section__title{
+.section__title {
   font-size: 35rpx;
   font-weight: bold;
   height: 38px;
-  line-height: 38px
+  line-height: 38px;
 }
 
-.hr{
-  background:#58b8bd;
+.hr {
+  background: #58b8bd;
   width: 100%;
   height: 5rpx;
-  margin-top:10rpx;
-  margin-bottom:10rpx;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
 }
 
 .list-button {
-  margin-top: 30rpx;
-  margin-bottom: 20rpx;
-  border-radius: 60rpx;
   overflow: hidden;
-  box-shadow: 2rpx 2rpx 2rpx 0rpx rgba(0,64,128,.2);
-  width:90%;
-  background-color:#bad7df;
-  font-weight:normal;
+  width: 100%;
+  background-color: #bad7df;
+  font-weight: normal;
+  line-height: 45px;
+  height: 45px;
+  text-align: center
 }
 
-.btn-hover{
-  background-color:#7fb1be !important;
+.bottomContant{
+  position:fixed;
+  width:100%;
+  transition: All 0.2s ease-in-out;
 }

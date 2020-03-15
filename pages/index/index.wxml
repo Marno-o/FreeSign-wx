@@ -1,48 +1,58 @@
 <!-- index.wxml-->
 <view>
-  <!-- 标题 -->
-  <view class="formHead" style="padding-left:0">
-    <view class="container">
-      <view class="userinfo">
-        <block>
-          <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-          <text bindtap="inputNewName" style="font-size:64rpx">{{userInfo.userName}}</text>
-          <text class="userinfo-nickname" bindtap="inputNewName">点击修改名称</text>
-        </block>
-      </view>
-      <!-- <view class="usermotto">
+  <view class="topContent">
+    <!-- 标题 -->
+    <view class="formHead" style="padding-left:0">
+      <view class="container">
+        <view class="userinfo">
+          <block>
+            <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+            <text bindtap="inputNewName" style="font-size:64rpx">{{userInfo.userName}}</text>
+            <text class="userinfo-nickname" bindtap="inputNewName">点击修改名称</text>
+          </block>
+        </view>
+        <!-- <view class="usermotto">
         <text class="user-motto">{{motto}}</text>
       </view> -->
+      </view>
     </view>
+
+
+    <modal id="modal" hidden="{{hiddenmodalput}}" title="修改名称" confirm - text="提交 " cancel - text="取消 " bindcancel="cancelInput" bindconfirm="subInput">
+      <input type="text" bindinput="newName" placeholder="建议输入：职位+名称 " auto-focus />
+    </modal>
   </view>
-
-
-  <modal id="modal" hidden="{{hiddenmodalput}}" title="修改名称" confirm - text="提交 " cancel - text="取消 " bindcancel="cancelInput" bindconfirm="subInput">
-    <input type="text" bindinput="newName" placeholder="建议输入：职位+名称 " auto-focus />
-  </modal>
-
 
   <!-- 表格内容 -->
   <view class="formContent ">
+    <scroll-view scroll-y="true" style="height:{{contentHeight}}px" bindscroll="getPosition">
 
-    <view wx:if="{{hasNearly}}" class="itemStyle" style="margin:30rpx;margin-bottom:70rpx;border-radius: 30rpx;">
+      <view class="itemStyle" bindtap="moreInfo" data-way="organized">
+        <text class="section__title userinfo " decode="true">我组织的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
+      </view>
+
+      <view class="itemStyle" bindtap="moreInfo" data-way="registed">
+        <text class="section__title userinfo" decode="true">我报名的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
+      </view>
+
+      <view class="itemStyle" bindtap="moreInfo" data-way="signed">
+        <text class="section__title userinfo" decode="true">已签到的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
+      </view>
+
+      <view class="itemStyle" bindtap="moreInfo" data-way="signed">
+        <text class="section__title userinfo" decode="true">系统设置&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
+      </view>
+    </scroll-view>
+  </view>
+
+
+  <view class="bottomContant" style="bottom:{{myWidth}}px;">
+    <view wx:if="{{hasNearly}}" class="itemStyle" style="margin:0;margin-left:30rpx;margin-right:30rpx;border-radius: 15px;box-shadow: 5rpx 5rpx 20rpx 0rpx rgba(0, 64, 128, 0.6);">
       <view class="userinfo" style="font-size: 35rpx;font-weight: bold;">最近访问</view>
-      <view class="hr "></view>
-      <button class="list-button" hover-class="btn-hover " style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{sceneID}}">
+      <view class="hr " style="margin-bottom: 0;"></view>
+      <view class="list-button" hover-class="btn-hover " style="width:100%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{sceneID}}">
         {{theme}}
-      </button>
-    </view>
-
-    <view class="itemStyle" bindtap="moreInfo" data-way="organized">
-      <text class="section__title userinfo " decode="true">我组织的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
-    </view>
-
-    <view class="itemStyle" bindtap="moreInfo" data-way="registed">
-      <text class="section__title userinfo" decode="true">我报名的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
-    </view>
-
-    <view class="itemStyle" bindtap="moreInfo" data-way="signed">
-      <text class="section__title userinfo" decode="true">已签到的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
+      </view>
     </view>
   </view>
 </view>

@@ -11,7 +11,7 @@ Page({
   },
 
   data: {
-    height: 450,
+    contentHeight:500,
     motto: 'Hello World',
     userInfo: {},
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -19,7 +19,8 @@ Page({
     newName:"",
     hasNearly:false,
     sceneID:"",
-    theme:""
+    theme:"",
+    myWidth: -15
   },
 
   onShow: function() {
@@ -32,12 +33,23 @@ Page({
   },
 
   onLoad: function() {
-    this.ifLogin()
-    let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的useable高度
-    let windowWidth = wx.getSystemInfoSync().windowWidth; 
-    this.setData({
-      height: windowHeight - 450*windowWidth/750,
-    });
+    let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的高度
+    let query = wx.createSelectorQuery();
+    query.select('.topContent').boundingClientRect(rect => {
+      let contantheight = windowHeight - rect.height - 100;
+      this.setData({
+        contentHeight: contantheight
+      });
+      console.log(">>>" + rect.height)
+    }).exec();
+
+
+    // this.ifLogin()
+    // let windowHeight = wx.getSystemInfoSync().windowHeight; // 屏幕的useable高度
+    // let windowWidth = wx.getSystemInfoSync().windowWidth; 
+    // this.setData({
+    //   height: windowHeight - 450*windowWidth/750,
+    // });
   },
 
   ifLogin: function() {
@@ -111,6 +123,19 @@ Page({
         })
       }
     })
+  },
+
+  getPosition(e){
+    var that = this
+    if (e.detail.scrollTop>5){
+      that.setData({
+        myWidth:-50
+      })
+    }else{
+      that.setData({
+        myWidth: -15
+      })
+    }
   },
 
   scene: function (e) {
