@@ -6,7 +6,7 @@
   <image wx:else class="head-logo" src="src/bt.jpg" mode="widthFix"></image>
   <view class="head-info">- {{motto}} -</view>
 </view>
-
+<button bindtap="signThisBeacons">beacon</button>
 <scroll-view scroll-y="true" style="height:{{height}}rpx;position:absolute;bottom:10rpx;">
   <block wx:for-items="{{blueToothList}}" wx:key="deviceId">
     <button deviceId="{{item.deviceId}}" class="list-button" style="width:75%" bindtap="signThis" data-id="{{item.deviceId}}">

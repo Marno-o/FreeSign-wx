@@ -14,6 +14,7 @@ Page({
     starttime: "", //打开页面时间
     contantHeight: 1000, //默认页面高度
     currentTab: 0,
+    bluetoothopened: false,
 
     //新建场景信息
     date: "",
@@ -95,7 +96,7 @@ Page({
         sceneID: sceneID
       },
       success: data => {
-        var thatt = that 
+        var thatt = that
         var scene = data.data
         console.log(data.data)
         //处理时间
@@ -167,10 +168,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    var that = this
-    if (this.data.mode == "new") {
-      that.openBluetoothAdapter();
-    }
+    this.getBluetoothStatus();
   },
 
   /**
@@ -209,8 +207,8 @@ Page({
     if (this.data.mode != "new") {
       var thatt = that
       // 设置转发内容
-      var sendmsg = that.data.sceneInfo.userName + "邀请你参加" + that.data.sceneInfo.theme 
-      if (that.data.sceneInfo.message){
+      var sendmsg = that.data.sceneInfo.userName + "邀请你参加" + that.data.sceneInfo.theme
+      if (that.data.sceneInfo.message) {
         sendmsg = sendmsg + ", " + thatt.data.sceneInfo.message
       }
       console.log(sendmsg)
@@ -353,5 +351,60 @@ Page({
 
       }
     })
+  },
+
+  signOnIBeacons() {
+    wx.openBluetoothAdapter({
+      success: function(res) {
+        wx.showModal({
+          title: '正在确认信标位置',
+          content: '请稍候',
+        })
+        // 开始扫描
+        wx.startBeaconDiscovery({
+          uuids: ['FDA50693-A4E2-4FB1-AFCF-C6EB07647825'],
+          success: function() {
+            console.log("开始扫描设备...");
+            // 监听iBeacon信号
+            wx.onBeaconUpdate(function(res) {
+              console.log(res.beacons)
+              var beacons = res.beacons;
+              console.log(beacons[0].proximity)
+              console.log(beacons[0].accuracy)
+              console.log(beacons[0].rssi)
+              if (beacons[0].accuracy < 10) {
+                wx.hideLoading()
+                wx.showModal({
+                  title: '签到成功',
+                  content: '时间',
+                })
+                wx.offBeaconUpdate()
+                wx.stopBeaconDiscovery()
+              }
+            });
+          }
+        });
+
+        // 超时停止扫描
+        setTimeout(function() {
+          wx.stopBeaconDiscovery({
+            success: function() {
+              console.log("停止设备扫描！");
+              console.log(devices);
+              wx.showModal({
+                title: '未找到信标，请确认是否到到指定地点',
+                content: '',
+              })
+            }
+          });
+        }, 5 * 1000);
+      },
+      fail: function() {
+        wx.showModal({
+          title: '请打开设备蓝牙'
+        })
+      }
+    })
+    wx.closeBluetoothAdapter()
   }
 })
