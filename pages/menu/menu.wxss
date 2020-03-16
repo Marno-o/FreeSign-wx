@@ -3,8 +3,8 @@
 .picButton {
   display: flex;
   justify-content: center;
-  width: 280rpx;
-  height: 280rpx;
+  width: 250rpx;
+  height: 250rpx;
   border-radius: 50%;
   overflow: hidden;
 }
