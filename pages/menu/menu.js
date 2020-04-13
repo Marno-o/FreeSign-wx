@@ -6,13 +6,13 @@ Page({
    */
   data: {
     menu: [{
-        name: "蓝牙签到",
+        name: "急速签到",
         url: "sign",
         pic: "src/bluetooth.png"
       },
       {
         name: "NFC签到",
-        url: "sbn",
+        url: "testpage",
         pic: "src/NFC.png"
       },
       {
@@ -91,11 +91,21 @@ Page({
    * 跳转链接
    */
   jumpToPage(e) {
-    console.log(app.globalData.ifUserSign)
+    var that = this;
     if (app.globalData.ifUserSign) {
-      wx.navigateTo({
-        url: '/pages/' + e.currentTarget.dataset.url + '/' + e.currentTarget.dataset.url + "?mode=new",
-      })
+      var thatt = that;
+      if (e.currentTarget.dataset.url == "sign") {
+        var sceneID = thatt.getSignSceneID()
+        if(sceneID!=null){
+          wx.navigateTo({
+            url: '/pages/sign/sign?sceneID='+sceneID+'&major='+major+'&minor='+minor,
+          })
+        }
+      } else {
+        wx.navigateTo({
+          url: '/pages/' + e.currentTarget.dataset.url + '/' + e.currentTarget.dataset.url + "?mode=new",
+        })
+      }
     } else {
       wx.showModal({
         title: '请先登录',
@@ -108,5 +118,9 @@ Page({
         }
       })
     }
+  },
+
+  getSignSceneID(){
+
   }
 })
