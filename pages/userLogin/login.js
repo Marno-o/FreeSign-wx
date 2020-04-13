@@ -34,7 +34,7 @@ Page({
         wx.getUserInfo({
           success: res => {
             wx.request({
-              url: app.globalData.host + '/usersign',
+              url: app.globalData.host + '/logIn',
               method: 'post',
               header: {
                 'content-type': 'application/x-www-form-urlencoded'
@@ -72,7 +72,11 @@ Page({
                       wx.navigateBack({
                         delta: 1
                       })
-                    } else {
+                    } else if (thatt.data.targrtIs == "index"){
+                      wx.switchTab({
+                        url: '/pages/' + thatt.data.targrtIs + '/' + thatt.data.targrtIs
+                      })
+                    } else{
                       wx.navigateTo({
                         url: '/pages/' + thatt.data.targrtIs + '/' + thatt.data.targrtIs,
                       })
