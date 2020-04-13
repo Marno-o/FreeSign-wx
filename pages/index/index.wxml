@@ -32,15 +32,15 @@
       </view>
 
       <view class="itemStyle" bindtap="moreInfo" data-way="registed">
-        <text class="section__title userinfo" decode="true">我报名的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
+        <text class="section__title userinfo" decode="true">我参与的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
+      </view>
+
+      <view class="itemStyle" bindtap="moreInfo" data-way="registed">
+        <text class="section__title userinfo" decode="true">我的组织&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
       </view>
 
       <view class="itemStyle" bindtap="moreInfo" data-way="signed">
-        <text class="section__title userinfo" decode="true">已签到的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
-      </view>
-
-      <view class="itemStyle" bindtap="moreInfo" data-way="signed">
-        <text class="section__title userinfo" decode="true">系统设置&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
+        <text class="section__title userinfo" decode="true">其他设置&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
       </view>
     </scroll-view>
   </view>

@@ -62,7 +62,7 @@ Page({
       })
     } else {
       wx.redirectTo({
-        url: '../userLogin/login',
+        url: '../userLogin/login?targrtIs=index',
       })
     }
   },
@@ -102,14 +102,14 @@ Page({
     })
     var that = this
     wx.request({
-      url: app.globalData.host+'/changename',
+      url: app.globalData.host +'/changeName',
       method: 'post',
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       data: {
         newName: this.data.newName,
-        openId: app.globalData.userInfo.userID
+        openId: app.globalData.userInfo.pkId
       },
       success: data => {
         app.globalData.userInfo = data.data.userInfo
