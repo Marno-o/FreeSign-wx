@@ -24,6 +24,8 @@ Page({
     addressInfo: "点击选择地图上的地点",
     ifRegister: true,
     allowForward: true, //允许二次转发
+    beacons:{},
+    newBeacon:{},
 
     //蓝牙列表
     ifbt: true,
@@ -54,6 +56,7 @@ Page({
       that.setData({
         mode: options.mode,
       })
+      that.getBeacons()
       if (!that.data.userInfo) {
         Error
       }
@@ -115,7 +118,7 @@ Page({
         //判断删除权限
         var imade = false
         if (that.data.userInfo) {
-          if (scene.originatorID == thatt.data.userInfo.userID) {
+          if (scene.originatorID == thatt.data.userInfo.pkId) {
             imade = true
           }
         }
@@ -168,7 +171,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    this.getBluetoothStatus();
   },
 
   /**
@@ -349,6 +351,220 @@ Page({
 
         })
 
+      }
+    })
+  },
+
+  /**
+   * submit
+   */
+  subform: function (e) {
+    console.log('form发生了submit事件，携带数据为：', e.detail.value)
+    var that = this
+    // 场景主题
+    if (e.detail.value.theme == "") {
+      var thatt = that
+      wx.showModal({
+        title: '请输入主题名称！',
+        showCancel: false,
+        confirmText: "好",
+        success: function (res) {
+          thatt.setData({
+            currentTab: 0
+          })
+        }
+      })
+    } else if (e.detail.value.host == "") {
+      var thatt = that
+      wx.showModal({
+        title: '请输入主持人！！',
+        showCancel: false,
+        confirmText: "好",
+        success: function (res) {
+          thatt.setData({
+            currentTab: 0
+          })
+        }
+      })
+    } else if (e.detail.value.address == "") {
+      var thatt = that
+      wx.showModal({
+        title: '请输入地点！！',
+        showCancel: false,
+        confirmText: "好",
+        success: function (res) {
+          thatt.setData({
+            currentTab: 0
+          })
+        }
+      })
+    } else if (e.detail.value.mode == "1") {
+      var that = this
+      if (e.detail.value.beaconId == "" || e.detail.value.major == "" || e.detail.value.minor == "") {
+        wx.showModal({
+          title: '请选择蓝牙信标',
+          showCancel: false,
+          confirmText: "好"
+        })
+      } else {
+        var thatt = that
+        wx.showLoading({
+          title: '请稍候...',
+        })
+        wx.request({
+          url: app.globalData.host + '/makeScene',
+          method: 'post',
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          data: {
+            originatorId: thatt.data.userInfo.pkId,
+            userPic: thatt.data.userInfo.avatarUrl,
+            userName: thatt.data.userInfo.userName,
+            theme: e.detail.value.theme,
+            host: e.detail.value.hoster,
+            startTime: e.detail.value.starttime,
+            startDate: e.detail.value.startdate,
+            timelong: e.detail.value.timelong,
+            address: e.detail.value.address,
+            ifRegister: e.detail.value.ifRegister,
+            mymessage: e.detail.value.mymessage,
+            mode: e.detail.value.mode,
+            beaconId: e.detail.value.beaconId,
+            major: e.detail.value.major,
+            minor: e.detail.value.minor
+          },
+          success: data => {
+            wx.hideLoading()
+            if (data.data.motto == 1) {
+              var newsceneID = data.data.newSceneID
+              wx.showModal({
+                title: '新建成功，即将跳转个人页面',
+                showCancel: false,
+                confirmText: "好",
+                success: function (res) {
+                  wx.redirectTo({
+                    url: '../scene/scene?sceneID=' + newsceneID,
+                  })
+                }
+              })
+            } else if (data.data.motto == 2) {
+              wx.showModal({
+                title: '新建任务失败',
+                content: '这个信标已经被你用过啦，先停止它的任务吧！',
+                showCancel: false,
+                confirmText: "好"
+              })
+            } else if (data.data.motto == 3) {
+              wx.showModal({
+                title: '新建任务失败',
+                content: '这个信标已经被别人用啦，换个信标试试吧！',
+                showCancel: false,
+                confirmText: "好"
+              })
+            } else {
+              wx.showModal({
+                title: '新建任务失败',
+                content: '未知错误，请重试',
+                showCancel: false,
+                confirmText: "好"
+              })
+            }
+          },
+          fail: data => {
+            wx.hideLoading()
+            wx.showModal({
+              title: '新建任务失败',
+              content: '可能是网络连接出错，请重试',
+              showCancel: false,
+              confirmText: "好"
+            })
+          }
+        })
+      }
+    } else {
+      console.log("签到方式:" + e.detail.value.mode)
+    }
+  },
+
+  //获取用户信标
+  getBeacons(){
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    wx.request({
+      url: app.globalData.host + '/getBeacon',
+      method: 'post',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        userId:app.globalData.userInfo.pkId
+      },
+      success: data => {
+        this.setData({
+          beacons:data.beacons
+        })
+      }
+    })
+  },
+
+  //点击按钮弹出指定的hiddenmodalput弹出框 
+  inputNewBeacon: function () {
+    this.setData({
+      hiddenmodalput: !this.data.hiddenmodalput
+    })
+  },
+  newBeacon: function (e) {
+    this.setData({
+      newBeacon: e.detail.value
+    });
+  },
+  //取消按钮 
+  cancelInput: function () {
+    this.setData({
+      hiddenmodalput: true
+    });
+  },
+  //确认 
+  subInput: function (e) {
+    var that = this
+    if (this.data.newBeacon == "") {
+      wx.showModal({
+        title: "不可为空",
+        showCancel: false,
+        confirmText: "OK"
+      })
+      return
+    }
+    this.setData({
+      hiddenmodalput: true
+    })
+    wx.showLoading({
+      title: '正在提交...',
+    })
+    wx.request({
+      url: app.globalData.host + '/newBeacon',
+      method: 'post',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        userId: app.globalData.userInfo.pkId,
+        beaconId: this.data.beaconId,
+        major: this.data.major,
+        minor: this.data.minor,
+        beaconName: this.data.beaconName
+      },
+      success: data => {
+        var thatt = that
+        if(data.code == 1){
+          thatt.getBeacons();
+        }
+        wx.hideLoading()
+        wx.showModal({
+          title: data.data.msg,
+          showCancel: false,
+          confirmText: "OK"
+        })
       }
     })
   },

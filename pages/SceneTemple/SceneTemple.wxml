@@ -10,7 +10,7 @@
       <view wx:else class="fsttitle">{{sceneInfo.theme}}</view>
 
       <view wx:if="{{mode=='new'}}" class="secondtitle">发起人：{{userInfo.userName}}</view>
-      <view wx:else class="secondtitle">主持人：{{sceneInfo.hoster}}</view>
+      <view wx:else class="secondtitle">主持人：{{sceneInfo.host}}</view>
 
     </view>
   </view>
@@ -39,7 +39,7 @@
 
                 <view>
                   <view class="title">主 持 人：</view>
-                  <input name="hoster" placeholder="请输入 主持人姓名 或 主持单位" />
+                  <input name="host" placeholder="请输入 主持人姓名 或 主持单位" />
                 </view>
 
               </view>
@@ -280,15 +280,11 @@
 
               <view class="itemStyle" style="text-align:center;margin-top:0">
                 <block wx:if="{{ifbt == 1}}">
-                  <radio-group name="deviceId">
-                    <view class="section__title">{{motto}}</view>
-                    <view class="hr"></view>
-                    <scroll-view scroll-y="true" style="height:700rpx;margin-top:70rpx">
-                      <radio class="radio" wx:for-items="{{blueToothList}}" wx:key="deviceId" value="{{item.deviceId}}">
-                        <text>{{item.name}}</text>
-                      </radio>
-                    </scroll-view>
-                  </radio-group>
+                  <view class="section__title">选择信标</view>
+                  <view class="hr"></view>
+                  <scroll-view scroll-y="true" style="height:100%;margin-top:30rpx;margin-bottom:35rpx">
+                    <button formType="newPersonalIBeacon" style="left:0;right:0;background-color: lightgreen; ">新建信标</button>
+                  </scroll-view>
                 </block>
                 <block wx:else>
                   <view class="section__title " style="text-align:center; ">others</view>
