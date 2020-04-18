@@ -96,3 +96,8 @@ page {
   float: right;
   font-weight: normal;
 }
+
+.littleModel{
+  margin: 25rpx;
+  padding-left: 8%
+}

@@ -283,7 +283,14 @@
                   <view class="section__title">选择信标</view>
                   <view class="hr"></view>
                   <scroll-view scroll-y="true" style="height:100%;margin-top:30rpx;margin-bottom:35rpx">
-                    <button formType="newPersonalIBeacon" style="left:0;right:0;background-color: lightgreen; ">新建信标</button>
+
+                    <radio-group class="radio-group" bindchange="beaconChange">
+                      <radio class="radio" wx:for-items="{{beacons}}" wx:key="name" value="{{item.pkId}}">
+                        <text>{{item.customizedName}}</text>
+                      </radio>
+                    </radio-group>
+                    <button bindtap="inputNewBeacon" style="left:0;right:0;background-color: lightgreen; ">新建信标</button>
+                    
                   </scroll-view>
                 </block>
                 <block wx:else>
@@ -301,4 +308,13 @@
       </swiper>
     </form>
   </view>
+
+  <modal id="modal" hidden="{{hiddenmodalput}}" title="新建信标" confirm - text="提交 " cancel - text="取消 " bindcancel="cancelInput" bindconfirm="subInput">
+    UUID :
+    <input class="littleModel" type="text" bindinput="newUUID" value='{{newUUID}}' placeholder="一串32位长的字母数字组合" auto-focus /> Major :
+    <input class="littleModel" type="number" bindinput="newMAJOR" value='{{newMAJOR}}' placeholder="5位的数字" /> Minor :
+    <input class="littleModel" type="number" bindinput="newMINOR" value='{{newMINOR}}' placeholder="5位的数字" /> 信标名称 :
+    <input class="littleModel" type="text" bindinput="newNAME" value='{{newName}}' placeholder="给信标起个名字吧(7个汉字以内)" />
+  </modal>
+
 </view>

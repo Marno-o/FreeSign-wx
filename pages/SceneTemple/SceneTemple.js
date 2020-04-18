@@ -24,8 +24,14 @@ Page({
     addressInfo: "点击选择地图上的地点",
     ifRegister: true,
     allowForward: true, //允许二次转发
-    beacons:{},
-    newBeacon:{},
+    beacons: [],
+    beaconId: -1,
+
+    newUUID: "",
+    newMAJOR: "",
+    newMINOR: "",
+    newName: "",
+    hiddenmodalput: true,
 
     //蓝牙列表
     ifbt: true,
@@ -170,8 +176,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
-  },
+  onShow: function() {},
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -358,7 +363,7 @@ Page({
   /**
    * submit
    */
-  subform: function (e) {
+  subform: function(e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
     var that = this
     // 场景主题
@@ -368,7 +373,7 @@ Page({
         title: '请输入主题名称！',
         showCancel: false,
         confirmText: "好",
-        success: function (res) {
+        success: function(res) {
           thatt.setData({
             currentTab: 0
           })
@@ -380,7 +385,7 @@ Page({
         title: '请输入主持人！！',
         showCancel: false,
         confirmText: "好",
-        success: function (res) {
+        success: function(res) {
           thatt.setData({
             currentTab: 0
           })
@@ -392,7 +397,7 @@ Page({
         title: '请输入地点！！',
         showCancel: false,
         confirmText: "好",
-        success: function (res) {
+        success: function(res) {
           thatt.setData({
             currentTab: 0
           })
@@ -442,7 +447,7 @@ Page({
                 title: '新建成功，即将跳转个人页面',
                 showCancel: false,
                 confirmText: "好",
-                success: function (res) {
+                success: function(res) {
                   wx.redirectTo({
                     url: '../scene/scene?sceneID=' + newsceneID,
                   })
@@ -488,7 +493,7 @@ Page({
   },
 
   //获取用户信标
-  getBeacons(){
+  getBeacons() {
     console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     wx.request({
       url: app.globalData.host + '/getBeacon',
@@ -497,47 +502,122 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       data: {
-        userId:app.globalData.userInfo.pkId
+        userId: app.globalData.userInfo.pkId
       },
       success: data => {
         this.setData({
-          beacons:data.beacons
+          beacons: data.data.beacons
         })
       }
     })
   },
 
+  beaconChange: function(e) {
+    var that = this
+    that.setData({
+      beaconId: e.detail.value
+    })
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
+  },
+
   //点击按钮弹出指定的hiddenmodalput弹出框 
-  inputNewBeacon: function () {
+  inputNewBeacon: function() {
     this.setData({
       hiddenmodalput: !this.data.hiddenmodalput
     })
   },
-  newBeacon: function (e) {
+  newUUID: function(e) {
     this.setData({
-      newBeacon: e.detail.value
+      newUUID: e.detail.value
+    });
+  },
+  newMAJOR: function(e) {
+    this.setData({
+      newMAJOR: e.detail.value
+    });
+  },
+  newMINOR: function(e) {
+    this.setData({
+      newMINOR: e.detail.value
+    });
+  },
+  newNAME: function(e) {
+    this.setData({
+      newName: e.detail.value
     });
   },
   //取消按钮 
-  cancelInput: function () {
+  cancelInput: function() {
     this.setData({
-      hiddenmodalput: true
+      hiddenmodalput: true,
+      newUUID: "",
+      newMAJOR: "",
+      newMINOR: "",
+      newName: ""
     });
   },
   //确认 
-  subInput: function (e) {
+  subInput: function(e) {
     var that = this
-    if (this.data.newBeacon == "") {
+    var uuidReg1 = /^\d|\w{32}$/;
+    var uuidReg2 = /^(\d|\w{8})-(\d|\w{4})-(\d|\w{4})-(\d|\w{4})-(\d|\w{12})$/;
+    if (this.data.newUUID == "") {
       wx.showModal({
-        title: "不可为空",
+        title: "UUID不可为空",
+        showCancel: false,
+        confirmText: "OK"
+      })
+      return
+    } else if (!(uuidReg2.test(this.data.newUUID) || uuidReg1.test(this.data.newUUID))) {
+      wx.showModal({
+        title: "UUID 填写错误，请检查",
+        showCancel: false,
+        confirmText: "OK"
+      })
+      return
+    } else if (this.data.newMAJOR == "") {
+      wx.showModal({
+        title: "Major不可为空",
+        showCancel: false,
+        confirmText: "OK"
+      })
+      return
+    } else if (!/^\d{5}$/.test(this.data.newMAJOR)) {
+      wx.showModal({
+        title: "Major格式错误，请检查",
+        showCancel: false,
+        confirmText: "OK"
+      })
+      return
+    } else if (this.data.newMINOR == "") {
+      wx.showModal({
+        title: "Minor不可为空",
+        showCancel: false,
+        confirmText: "OK"
+      })
+      return
+    } else if (!/^\d{5}$/.test(this.data.newMINOR)) {
+      wx.showModal({
+        title: "Minor格式错误，请检查",
+        showCancel: false,
+        confirmText: "OK"
+      })
+      return
+    } else if (this.data.newName == "") {
+      wx.showModal({
+        title: "名称不可为空",
+        showCancel: false,
+        confirmText: "OK"
+      })
+      return
+    } else if (!/^([0-9]|[a-z]|[A-Z]]|[\u4e00-\u9fa5]){1,7}$/.test(this.data.newName)) {
+      wx.showModal({
+        title: "名称不要太长哦",
         showCancel: false,
         confirmText: "OK"
       })
       return
     }
-    this.setData({
-      hiddenmodalput: true
-    })
     wx.showLoading({
       title: '正在提交...',
     })
@@ -549,15 +629,24 @@ Page({
       },
       data: {
         userId: app.globalData.userInfo.pkId,
-        beaconId: this.data.beaconId,
-        major: this.data.major,
-        minor: this.data.minor,
-        beaconName: this.data.beaconName
+        beaconId: this.data.newUUID,
+        major: this.data.newMAJOR,
+        minor: this.data.newMINOR,
+        beaconName: this.data.newName
       },
-      success: data => {
+      success(data) {
         var thatt = that
-        if(data.code == 1){
-          thatt.getBeacons();
+        if (data.data.code == 1) {
+          thatt.setData({
+            hiddenmodalput: true
+          })
+          thatt.setData({
+              newUUID: "",
+              newMAJOR: "",
+              newMINOR: "",
+              newName: ""
+            }),
+            thatt.getBeacons();
         }
         wx.hideLoading()
         wx.showModal({
@@ -565,6 +654,9 @@ Page({
           showCancel: false,
           confirmText: "OK"
         })
+      },
+      complete(e) {
+
       }
     })
   },
