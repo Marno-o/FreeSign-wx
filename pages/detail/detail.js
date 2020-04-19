@@ -12,7 +12,7 @@ Page({
     current: 0,
     listNull:false,
     sceneListReady: [],
-    sceneListDone: [],
+    sceneListAll: [],
     triggered:false
   },
 
@@ -78,9 +78,10 @@ Page({
   onShow: function() {
     if (this.data.way == "organized"){
       this.getSceneListReady()
-      this.getSceneListDone()
-    } else if (way == "registed"){
-      //找已报名的
+      this.getSceneListAll()
+    } else if (way == "join"){
+      this.getSceneListRegisted()
+      this.getSceneListSigned()
     }
     
   },
@@ -124,13 +125,14 @@ Page({
     var that = this
     if (app.globalData.ifUserSign) {
       wx.request({
-        url: app.globalData.host + '/getscenebyoid/ready',
+        url: app.globalData.host + '/getScene/byOriginatorId',
         method: 'post',
         header: {
           'content-type': 'application/x-www-form-urlencoded'
         },
         data: {
-          originatorID: app.globalData.userInfo.userID
+          originatorId: app.globalData.userInfo.pkId,
+          done:true
         },
         success: data => {
           console.log(data.data)
@@ -150,24 +152,24 @@ Page({
     }
   },
 
-  getSceneListDone: function() {
+  getSceneListAll: function() {
     var that = this
     if (app.globalData.ifUserSign) {
       wx.request({
-        url: app.globalData.host + '/getscenebyoid/done',
+        url: app.globalData.host + '/getScene/byOriginatorId',
         method: 'post',
         header: {
           'content-type': 'application/x-www-form-urlencoded'
         },
         data: {
-          originatorID: app.globalData.userInfo.userID
+          originatorId: app.globalData.userInfo.pkId
         },
         success: data => {
           console.log(data.data)
           that.setData({
-            sceneListDone: data.data
+            sceneListAll: data.data
           })
-          console.log(that.data.sceneListDone)
+          console.log(that.data.sceneListAll)
         }
       })
     }
@@ -175,7 +177,7 @@ Page({
 
   scene: function(e) {
     wx.navigateTo({
-      url: '../scene/scene?sceneID=' + e.currentTarget.dataset.id
+      url: '../SceneTemple/SceneTemple?sceneId=' + e.currentTarget.dataset.id
     })
   },
 

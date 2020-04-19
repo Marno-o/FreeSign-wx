@@ -33,9 +33,9 @@
 
       <scroll-view scroll-y="true " style="height:100%;display: flex;flex-direction: column;align-items: center; " refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="white" refresher-background="#58b8bd" refresher-triggered="{{triggered}}"
         bindrefresherpulling="onPulling" bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort">
-        <block wx:for-items="{{sceneListDone}}" wx:key="sceneID">
+        <block wx:for-items="{{sceneListAll}}" wx:key="sceneId">
           <view style="margin-bottom:20rpx ">
-            <button class="list-button" hover-class="btn-hover " style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneID}}">
+            <button class="list-button" hover-class="btn-hover " style="width:90%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{item.sceneId}}">
               {{item.theme}}
             </button>
           </view>
