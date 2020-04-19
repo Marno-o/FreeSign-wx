@@ -7,7 +7,8 @@
     "pages/organize/organize",
     "pages/userLogin/login",
     "pages/detail/detail",
-    "pages/SceneTemple/SceneTemple"
+    "pages/SceneTemple/SceneTemple",
+    "pages/testpage/testpage"
   ],
   "window": {
     "backgroundTextStyle": "light",
