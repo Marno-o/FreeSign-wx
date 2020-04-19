@@ -101,3 +101,7 @@ page {
   margin: 25rpx;
   padding-left: 8%
 }
+
+.radio2beacons{
+  margin: 10rpx;
+}

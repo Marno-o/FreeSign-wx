@@ -40,7 +40,7 @@ Page({
     motto: "正在搜索附近的蓝牙信标...",
 
     //查看场景信息
-    sceneID: -1,
+    sceneId: -1,
     sceneInfo: {},
     canDelete: false //判断是否拥有删除权限
   },
@@ -69,9 +69,9 @@ Page({
     } else {
       that.setData({
         mode: options.mode,
-        sceneID: options.sceneID,
+        sceneId: options.sceneId,
       })
-      that.getSceneData(that.data.sceneID)
+      that.getSceneData(that.data.sceneId)
     }
 
     console.log(this.data.mode)
@@ -93,16 +93,16 @@ Page({
   /**
    * 自定义：获取场景信息
    */
-  getSceneData(sceneID) {
+  getSceneData(sceneId) {
     var that = this
     wx.request({
-      url: app.globalData.host + '/getscenebysid',
+      url: app.globalData.host + '/getScene/byId',
       method: 'post',
       header: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       data: {
-        sceneID: sceneID
+        sceneId: sceneId
       },
       success: data => {
         var thatt = that
@@ -124,7 +124,7 @@ Page({
         //判断删除权限
         var imade = false
         if (that.data.userInfo) {
-          if (scene.originatorID == thatt.data.userInfo.pkId) {
+          if (scene.originatorId == thatt.data.userInfo.pkId) {
             imade = true
           }
         }
@@ -135,7 +135,7 @@ Page({
         })
         //把浏览记录缓存在本地
         var scenelit = {
-          sceneID: scene.sceneID,
+          sceneId: scene.pkSceneId,
           theme: scene.theme
         }
         var hasNearly = true
@@ -221,7 +221,7 @@ Page({
       console.log(sendmsg)
       var shareObj = {
         title: sendmsg,
-        path: '/pages/scene/scene?sceneID=' + that.data.sceneID,
+        path: '/pages/scene/scene?sceneId=' + that.data.sceneId,
       };
       return shareObj
     }
@@ -338,7 +338,7 @@ Page({
             'content-type': 'application/x-www-form-urlencoded'
           },
           data: {
-            sceneID: options.sceneID
+            sceneId: options.sceneId
           },
           success: data => {
             if (data.data == 1) {
@@ -413,6 +413,7 @@ Page({
         })
       } else {
         var thatt = that
+        console.log(e.detail.value)
         wx.showLoading({
           title: '请稍候...',
         })
@@ -427,29 +428,27 @@ Page({
             userPic: thatt.data.userInfo.avatarUrl,
             userName: thatt.data.userInfo.userName,
             theme: e.detail.value.theme,
-            host: e.detail.value.hoster,
-            startTime: e.detail.value.starttime,
-            startDate: e.detail.value.startdate,
-            timelong: e.detail.value.timelong,
+            host: e.detail.value.host,
+            time: e.detail.value.starttime,
+            date: e.detail.value.startdate,
+            timeLong: e.detail.value.timelong,
             address: e.detail.value.address,
             ifRegister: e.detail.value.ifRegister,
-            mymessage: e.detail.value.mymessage,
+            myMessage: e.detail.value.mymessage,
             mode: e.detail.value.mode,
-            beaconId: e.detail.value.beaconId,
-            major: e.detail.value.major,
-            minor: e.detail.value.minor
+            beaconId: e.detail.value.beaconId
           },
           success: data => {
             wx.hideLoading()
             if (data.data.motto == 1) {
-              var newsceneID = data.data.newSceneID
+              var newsceneId = data.data.newSceneId
               wx.showModal({
                 title: '新建成功，即将跳转个人页面',
                 showCancel: false,
                 confirmText: "好",
                 success: function(res) {
                   wx.redirectTo({
-                    url: '../scene/scene?sceneID=' + newsceneID,
+                    url: '../SceneTemple/SceneTemple?sceneId=' + newsceneId+'&mode=view',
                   })
                 }
               })
@@ -494,7 +493,6 @@ Page({
 
   //获取用户信标
   getBeacons() {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     wx.request({
       url: app.globalData.host + '/getBeacon',
       method: 'post',

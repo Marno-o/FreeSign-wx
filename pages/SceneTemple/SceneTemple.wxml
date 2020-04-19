@@ -283,12 +283,13 @@
                   <view class="section__title">选择信标</view>
                   <view class="hr"></view>
                   <scroll-view scroll-y="true" style="height:100%;margin-top:30rpx;margin-bottom:35rpx">
-
-                    <radio-group class="radio-group" bindchange="beaconChange">
-                      <radio class="radio" wx:for-items="{{beacons}}" wx:key="name" value="{{item.pkId}}">
+                    <view style="maigin:10rpx;margin-bottom:20rpx">
+                    <radio-group name="beaconId" class="radio2beacons" bindchange="beaconChange" style="  margin-bottom: 25rpx;">
+                      <radio class="radio2beacons" wx:for-items="{{beacons}}" wx:key="name" value="{{item.pkId}}" style="display:block;width:100%">
                         <text>{{item.customizedName}}</text>
                       </radio>
                     </radio-group>
+                    </view>
                     <button bindtap="inputNewBeacon" style="left:0;right:0;background-color: lightgreen; ">新建信标</button>
                     
                   </scroll-view>
