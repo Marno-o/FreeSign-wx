@@ -31,7 +31,7 @@
         <text class="section__title userinfo " decode="true">我组织的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
       </view>
 
-      <view class="itemStyle" bindtap="moreInfo" data-way="registed">
+      <view class="itemStyle" bindtap="moreInfo" data-way="join">
         <text class="section__title userinfo" decode="true">我参与的场景&nbsp;&nbsp;&nbsp;&nbsp;&gt;</text>
       </view>
 
@@ -50,7 +50,7 @@
     <view wx:if="{{hasNearly}}" class="itemStyle" style="margin:0;margin-left:30rpx;margin-right:30rpx;border-radius: 15px;box-shadow: 5rpx 5rpx 20rpx 0rpx rgba(0, 64, 128, 0.4);">
       <view class="userinfo" style="font-size: 35rpx;font-weight: bold;">最近访问</view>
       <view class="hr " style="margin-bottom: 0;"></view>
-      <view class="list-button" hover-class="btn-hover " style="width:100%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{sceneID}}">
+      <view class="list-button" hover-class="btn-hover " style="width:100%;background-color:#bad7df;font-weight:normal;" bindtap="scene" data-id="{{sceneId}}">
         {{theme}}
       </view>
     </view>

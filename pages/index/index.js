@@ -18,7 +18,7 @@ Page({
     hiddenmodalput:true,
     newName:"",
     hasNearly:false,
-    sceneID:"",
+    sceneId:"",
     theme:"",
     myWidth: -15
   },
@@ -27,7 +27,7 @@ Page({
     this.ifLogin()
     this.setData({
       hasNearly: wx.getStorageSync("hasNearly"),
-      sceneID: wx.getStorageSync("scenelit").sceneID,
+      sceneId: wx.getStorageSync("scenelit").sceneId,
       theme: wx.getStorageSync("scenelit").theme
     })
   },
@@ -139,11 +139,13 @@ Page({
   },
 
   scene: function (e) {
+    console.log(e)
     wx.navigateTo({
-      url: '../SceneTemple/SceneTemple?mode=view&sceneID=' + e.currentTarget.dataset.id
+      url: '../SceneTemple/SceneTemple?mode=view&sceneId=' + e.currentTarget.dataset.id
     })
   },
 
+  //跳转场景详细列表页面
   moreInfo:function(e){
     console.log(e.currentTarget.dataset.way)
     wx.navigateTo({
