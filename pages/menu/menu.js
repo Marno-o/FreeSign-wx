@@ -95,10 +95,10 @@ Page({
     if (app.globalData.ifUserSign) {
       var thatt = that;
       if (e.currentTarget.dataset.url == "sign") {
-        var sceneID = thatt.getSignSceneID()
-        if(sceneID!=null){
+        var sceneId = thatt.getSignSceneId()
+        if(sceneId!=null){
           wx.navigateTo({
-            url: '/pages/sign/sign?sceneID='+sceneID+'&major='+major+'&minor='+minor,
+            url: '/pages/sign/sign?sceneId='+sceneId,
           })
         }
       } else {
@@ -120,7 +120,20 @@ Page({
     }
   },
 
-  getSignSceneID(){
-
+  getSignSceneId(){
+    wx.request({
+      url: app.globalData.host + '/getScene/fast',
+      method: 'post',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        userId: app.globalData.userInfo.pkId
+      },
+      success: data => {
+        console.log(date)
+        return data.data
+      }
+    })
   }
 })
