@@ -263,20 +263,7 @@
 
             <!-- 切换swiper按钮 -->
             <view wx:if="{{mode=='new'}}">
-              <button bindtap="nextstep" data-current="1" style="margin-bottom:40rpx">下一步：选择信标</button>
-            </view>
-            <view wx:else>
-              <button wx:if="{{!canDelete}}" bindtap="register" style="margin-bottom:40rpx">报名参加</button>
-              <button wx:else type="warn" bindtap="deleteIt" style="margin-bottom:40rpx">删除任务</button>
-            </view>
-
-          </scroll-view>
-        </swiper-item>
-
-        <!-- 第二页 -->
-        <view wx:if="{{mode=='new'}}">
-          <swiper-item class="secondpage" style="height:{{contantHeight}}px">
-            <scroll-view scroll-y="true" style="height:80%">
+              <scroll-view scroll-y="true" style="height:80%">
 
               <view class="itemStyle" style="text-align:center;margin-top:0">
                 <block wx:if="{{ifbt == 1}}">
@@ -301,11 +288,24 @@
 
               <!-- 提交 -->
               <view class="btn-area ">
-                <button formType="submit" style="position:fixed;bottom:80rpx;left:0;right:0 ">提交</button>
+                <button formType="submit" style="margin-bottom:80rpx">提交</button>
               </view>
             </scroll-view>
+            </view>
+            <view wx:else>
+              <button wx:if="{{!canDelete}}" bindtap="register" style="margin-bottom:80rpx">报名参加</button>
+              <button wx:else type="warn" bindtap="deleteIt" style="margin-bottom:80rpx">删除任务</button>
+            </view>
+
+          </scroll-view>
+        </swiper-item>
+
+        <!-- 第二页
+        <view wx:if="{{mode=='new'}}">
+          <swiper-item class="secondpage" style="height:{{contantHeight}}px">
+            
           </swiper-item>
-        </view>
+        </view> -->
       </swiper>
     </form>
   </view>
