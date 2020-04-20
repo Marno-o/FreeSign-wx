@@ -48,7 +48,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     var that = this
     //如果已经登陆则获取信息
     if (app.globalData.userInfo) {
@@ -148,7 +148,7 @@ Page({
   /**
    * 自定义：获取当前时间
    */
-  getNowFormatDate: function() {
+  getNowFormatDate: function () {
     var date = new Date();
     var seperator1 = "-";
     var seperator2 = ":";
@@ -169,47 +169,47 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {},
+  onShow: function () { },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     var that = this
     if (this.data.mode != "new") {
       var thatt = that
@@ -228,7 +228,7 @@ Page({
   },
 
   //需要报名
-  ifRegister: function(e) {
+  ifRegister: function (e) {
     this.setData({
       ifRegister: e.detail.value,
       allowForward: true
@@ -242,7 +242,7 @@ Page({
         title: '请先登录再报名',
         showCancel: false,
         confirmText: "OK",
-        success: function() {
+        success: function () {
           wx.navigateTo({
             url: '../userLogin/login',
           })
@@ -256,7 +256,7 @@ Page({
   },
 
   //二次转发
-  allowForwardChange: function(e) {
+  allowForwardChange: function (e) {
     this.setData({
       allowForward: e.detail.value
     })
@@ -265,7 +265,7 @@ Page({
   /**
    * 改变日期
    */
-  dateChange: function(e) {
+  dateChange: function (e) {
     this.setData({
       date: e.detail.value
     })
@@ -274,7 +274,7 @@ Page({
   /**
    * 改变时间
    */
-  timeChange: function(e) {
+  timeChange: function (e) {
     this.setData({
       time: e.detail.value
     })
@@ -296,7 +296,7 @@ Page({
 
 
   // 地图模式发生改变
-  changeAddressMeta: function(e) {
+  changeAddressMeta: function (e) {
     var that = this
     if (e.detail.value == "getFromMap") {
       //可能需要弹窗提示
@@ -308,16 +308,14 @@ Page({
   },
 
   // 签到方式发生改变
-  modeChange: function(e) {
+  modeChange: function (e) {
     var that = this
     that.setData({
       ifbt: e.detail.value
     })
     if (e.detail.value == 1) {
-      that.openBluetoothAdapter();
       console.log(that.data.ifbt)
     } else {
-      that.closeBluetoothAdapter()
       console.log(that.data.ifbt)
     }
     console.log('radio发生change事件，携带value值为：', e.detail.value)
@@ -325,31 +323,39 @@ Page({
 
   //删除场景
   deleteIt(e) {
+    var that = this
     wx.showModal({
       title: '是否删除',
       content: "此操作不可撤销",
       confirmText: "删除",
       cancelText: "取消",
-      success: function() {
+      success: function () {
         wx.request({
-          url: app.globalData.host + '/deleteit',
+          url: app.globalData.host + '/deleteIt',
           method: 'post',
           header: {
             'content-type': 'application/x-www-form-urlencoded'
           },
           data: {
-            sceneId: options.sceneId
+            sceneId: that.data.sceneId
           },
           success: data => {
             if (data.data == 1) {
               wx.showToast({
                 title: '删除成功',
               })
-              wx.navigateTo({
-                url: '../index/index',
-              })
+              var scenelit = {
+                sceneId: "",
+                theme: ""
+              }
+              var hasNearly = false
+              wx.setStorageSync("scenelit", scenelit)
+              wx.setStorageSync("hasNearly", hasNearly)
+              wx.navigateBack();
             } else {
-
+              wx.showToast({
+                title: '删除失败，请重试',
+              })
             }
 
           }
@@ -363,7 +369,7 @@ Page({
   /**
    * submit
    */
-  subform: function(e) {
+  subform: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
     var that = this
     // 场景主题
@@ -373,7 +379,7 @@ Page({
         title: '请输入主题名称！',
         showCancel: false,
         confirmText: "好",
-        success: function(res) {
+        success: function (res) {
           thatt.setData({
             currentTab: 0
           })
@@ -385,7 +391,7 @@ Page({
         title: '请输入主持人！！',
         showCancel: false,
         confirmText: "好",
-        success: function(res) {
+        success: function (res) {
           thatt.setData({
             currentTab: 0
           })
@@ -397,7 +403,7 @@ Page({
         title: '请输入地点！！',
         showCancel: false,
         confirmText: "好",
-        success: function(res) {
+        success: function (res) {
           thatt.setData({
             currentTab: 0
           })
@@ -446,9 +452,9 @@ Page({
                 title: '新建成功，即将跳转个人页面',
                 showCancel: false,
                 confirmText: "好",
-                success: function(res) {
+                success: function (res) {
                   wx.redirectTo({
-                    url: '../SceneTemple/SceneTemple?sceneId=' + newsceneId+'&mode=view',
+                    url: '../SceneTemple/SceneTemple?sceneId=' + newsceneId + '&mode=view',
                   })
                 }
               })
@@ -510,7 +516,7 @@ Page({
     })
   },
 
-  beaconChange: function(e) {
+  beaconChange: function (e) {
     var that = this
     that.setData({
       beaconId: e.detail.value
@@ -519,33 +525,33 @@ Page({
   },
 
   //点击按钮弹出指定的hiddenmodalput弹出框 
-  inputNewBeacon: function() {
+  inputNewBeacon: function () {
     this.setData({
       hiddenmodalput: !this.data.hiddenmodalput
     })
   },
-  newUUID: function(e) {
+  newUUID: function (e) {
     this.setData({
       newUUID: e.detail.value
     });
   },
-  newMAJOR: function(e) {
+  newMAJOR: function (e) {
     this.setData({
       newMAJOR: e.detail.value
     });
   },
-  newMINOR: function(e) {
+  newMINOR: function (e) {
     this.setData({
       newMINOR: e.detail.value
     });
   },
-  newNAME: function(e) {
+  newNAME: function (e) {
     this.setData({
       newName: e.detail.value
     });
   },
   //取消按钮 
-  cancelInput: function() {
+  cancelInput: function () {
     this.setData({
       hiddenmodalput: true,
       newUUID: "",
@@ -555,7 +561,7 @@ Page({
     });
   },
   //确认 
-  subInput: function(e) {
+  subInput: function (e) {
     var that = this
     var uuidReg1 = /^\d|\w{32}$/;
     var uuidReg2 = /^(\d|\w{8})-(\d|\w{4})-(\d|\w{4})-(\d|\w{4})-(\d|\w{12})$/;
@@ -639,11 +645,11 @@ Page({
             hiddenmodalput: true
           })
           thatt.setData({
-              newUUID: "",
-              newMAJOR: "",
-              newMINOR: "",
-              newName: ""
-            }),
+            newUUID: "",
+            newMAJOR: "",
+            newMINOR: "",
+            newName: ""
+          }),
             thatt.getBeacons();
         }
         wx.hideLoading()
@@ -661,7 +667,7 @@ Page({
 
   signOnIBeacons() {
     wx.openBluetoothAdapter({
-      success: function(res) {
+      success: function (res) {
         wx.showModal({
           title: '正在确认信标位置',
           content: '请稍候',
@@ -669,10 +675,10 @@ Page({
         // 开始扫描
         wx.startBeaconDiscovery({
           uuids: ['FDA50693-A4E2-4FB1-AFCF-C6EB07647825'],
-          success: function() {
+          success: function () {
             console.log("开始扫描设备...");
             // 监听iBeacon信号
-            wx.onBeaconUpdate(function(res) {
+            wx.onBeaconUpdate(function (res) {
               console.log(res.beacons)
               var beacons = res.beacons;
               console.log(beacons[0].proximity)
@@ -692,9 +698,9 @@ Page({
         });
 
         // 超时停止扫描
-        setTimeout(function() {
+        setTimeout(function () {
           wx.stopBeaconDiscovery({
-            success: function() {
+            success: function () {
               console.log("停止设备扫描！");
               console.log(devices);
               wx.showModal({
@@ -705,7 +711,7 @@ Page({
           });
         }, 5 * 1000);
       },
-      fail: function() {
+      fail: function () {
         wx.showModal({
           title: '请打开设备蓝牙'
         })
