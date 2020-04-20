@@ -6,11 +6,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    targrtIs: ""
+    targrtIs: "",
+    mode:""
   },
 
   onLoad: function(options) {
+    console.log(options)
     this.data.targrtIs = options.targrtIs
+    this.data.mode = options.mode
   },
 
   onShow:function(){
@@ -77,8 +80,12 @@ Page({
                         url: '/pages/' + thatt.data.targrtIs + '/' + thatt.data.targrtIs
                       })
                     } else{
+                      var path = '/pages/' + thatt.data.targrtIs + '/' + thatt.data.targrtIs
+                      if(thatt.data.targrtIs == "SceneTemple"){
+                        path = path+"?mode=" + thatt.data.mode
+                      }
                       wx.navigateTo({
-                        url: '/pages/' + thatt.data.targrtIs + '/' + thatt.data.targrtIs,
+                        url: path,
                       })
                     }
                   }
