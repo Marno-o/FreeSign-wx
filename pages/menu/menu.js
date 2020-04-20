@@ -113,7 +113,7 @@ Page({
         confirmText: "好",
         success: function(res) {
           wx.redirectTo({
-            url: '../userLogin/login?targrtIs=' + e.currentTarget.dataset.url,
+            url: '../userLogin/login?mode=new&targrtIs=' + e.currentTarget.dataset.url,
           })
         }
       })
