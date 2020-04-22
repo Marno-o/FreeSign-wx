@@ -7,13 +7,15 @@ Page({
    */
   data: {
     targrtIs: "",
-    mode:""
+    mode:"",
+    sceneId:"",
   },
 
   onLoad: function(options) {
     console.log(options)
     this.data.targrtIs = options.targrtIs
     this.data.mode = options.mode
+    this.data.sceneId = options.sceneId
   },
 
   onShow:function(){
@@ -83,6 +85,7 @@ Page({
                       var path = '/pages/' + thatt.data.targrtIs + '/' + thatt.data.targrtIs
                       if(thatt.data.targrtIs == "SceneTemple"){
                         path = path+"?mode=" + thatt.data.mode
+                        path = path+"?sceneId=" + thatt.data.mode
                       }
                       wx.navigateTo({
                         url: path,
