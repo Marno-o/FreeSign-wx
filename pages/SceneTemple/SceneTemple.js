@@ -42,7 +42,8 @@ Page({
     //查看场景信息
     sceneId: -1,
     sceneInfo: {},
-    canDelete: false //判断是否拥有删除权限
+    canDelete: false, //判断是否拥有删除权限
+    signState: 0 //判断是否拥有删除权限
   },
 
   /**
@@ -72,6 +73,9 @@ Page({
         sceneId: options.sceneId,
       })
       that.getSceneData(that.data.sceneId)
+      if(options.signNow){
+        that.signOnIBeacons()
+      }
     }
 
     console.log(this.data.mode)
@@ -167,46 +171,6 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () { },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
@@ -221,7 +185,7 @@ Page({
       console.log(sendmsg)
       var shareObj = {
         title: sendmsg,
-        path: '/pages/scene/scene?sceneId=' + that.data.sceneId,
+        path: '/pages/SceneTemple/SceneTemple?sceneId=' + that.data.sceneId,
       };
       return shareObj
     }
@@ -237,20 +201,44 @@ Page({
 
   //报名按钮
   register(e) {
-    if (!userInfo) {
+    var that = this
+    if (!app.globalData.userInfo) {
       wx.showModal({
         title: '请先登录再报名',
         showCancel: false,
         confirmText: "OK",
         success: function () {
           wx.navigateTo({
-            url: '../userLogin/login',
+            url: '../userLogin/login?targrtIs=SceneTemple&mode=view&sceneId=' + that.data.sceneId,
           })
         }
       })
     } else {
       wx.request({
-        url: '',
+        url: host + "/register",
+        method: 'post',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: {
+          sceneId: that.data.sceneId,
+          userId: app.globalData.userInfo.pkId
+        },
+        success: data => {
+          var thatt = that
+          if (data.data == 1) {
+            wx.showToast({
+              title: '报名成功',
+            })
+            thatt.setData({
+              signState: 1
+            })
+          } else {
+            wx.showToast({
+              title: '报名失败',
+            })
+          }
+        }
       })
     }
   },
@@ -357,9 +345,7 @@ Page({
                 title: '删除失败，请重试',
               })
             }
-
           }
-
         })
 
       }
@@ -666,6 +652,27 @@ Page({
   },
 
   signOnIBeacons() {
+    var beaconInfo
+    wx.request({
+      url: host + '/getBeacon',
+      method: 'post',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        beaconId: that.data.sceneInfo.beaconId
+      },
+      success: data => {
+        if (data.data) {
+          beaconInfo = data.data
+        } else {
+          wx.showToast({
+            title: '信标失效，请联系组织者',
+          })
+        }
+
+      }
+    })
     wx.openBluetoothAdapter({
       success: function (res) {
         wx.showModal({
@@ -674,7 +681,7 @@ Page({
         })
         // 开始扫描
         wx.startBeaconDiscovery({
-          uuids: ['FDA50693-A4E2-4FB1-AFCF-C6EB07647825'],
+          uuids: [beaconInfo.uuid],
           success: function () {
             console.log("开始扫描设备...");
             // 监听iBeacon信号
@@ -684,7 +691,28 @@ Page({
               console.log(beacons[0].proximity)
               console.log(beacons[0].accuracy)
               console.log(beacons[0].rssi)
-              if (beacons[0].accuracy < 10) {
+              if (beacons[0].accuracy < 10 && beacons[0].major == beaconInfo.major && beacons[0].minor == beaconInfo.minor) {
+                wx.request({
+                  url: host + '/sign',
+                  method: 'post',
+                  header: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                  },
+                  data: {
+                    sceneId: that.data.sceneId,
+                    userId: app.globalData.userInfo.pkId
+                  },
+                  success: data => {
+                    if (data.data) {
+                      signState = data.data
+                    } else {
+                      wx.showToast({
+                        title: '签到失败，请联系组织者',
+                      })
+                    }
+
+                  }
+                })
                 wx.hideLoading()
                 wx.showModal({
                   title: '签到成功',
